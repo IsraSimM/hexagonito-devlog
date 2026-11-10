@@ -14,6 +14,8 @@ const devlog = defineCollection({
       title: z.string(),
       summary: z.string(),
       date: z.coerce.date(),
+      /** Sección del devlog: development (Desarrollo), art (Arte) o mechanics (Mecánicas). */
+      section: z.enum(["development", "art", "mechanics"]),
       tags: z.array(z.string()).default([]),
       /** Hito del plan, p. ej. "M22". Se muestra como insignia hexagonal. */
       milestone: z.string().optional(),

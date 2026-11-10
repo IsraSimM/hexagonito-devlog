@@ -2,6 +2,7 @@
 title: "Content now lives in JSON"
 summary: "Units, attack profiles and scenarios move out of C#: adding a unit means adding a file."
 date: 2026-10-31
+section: development
 milestone: M17
 tags: [tools, content]
 ---

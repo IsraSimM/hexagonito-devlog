@@ -2,6 +2,7 @@
 title: "HexaGonito is born"
 summary: "First commit, first rules: why we started with architecture instead of graphics."
 date: 2026-10-06
+section: development
 tags: [announcement, architecture]
 ---
 

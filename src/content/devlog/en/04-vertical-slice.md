@@ -2,6 +2,7 @@
 title: "Vertical slice: the first complete match"
 summary: "Two players, fourteen units and a match from start to finish. HexaGonito is now playable."
 date: 2026-10-26
+section: development
 milestone: M15
 tags: [milestone, playable, presentation]
 ---

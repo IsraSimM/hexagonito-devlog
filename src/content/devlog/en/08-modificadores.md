@@ -2,6 +2,7 @@
 title: "Modifiers: stun, silence, shields and invulnerability"
 summary: "Buffs, debuffs and action locks that change a unit's effective stats."
 date: 2026-11-08
+section: mechanics
 milestone: M22
 tags: [abilities, combat]
 ---

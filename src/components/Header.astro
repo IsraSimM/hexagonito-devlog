@@ -8,8 +8,8 @@ const other = otherLang(lang);
 const switchHref = alternates.includes(other) ? url(`${other}/${path}`) : url(`${other}/`);
 const current = Astro.url.pathname;
 const links = [
-  { href: url(`${lang}/`), label: t(lang, "nav.home"), exact: true },
   { href: url(`${lang}/devlog/`), label: t(lang, "nav.devlog") },
+  { href: url(`${lang}/factions/`), label: t(lang, "nav.factions") },
   { href: url(`${lang}/game/`), label: t(lang, "nav.game") },
 ];
 ---
@@ -18,7 +18,7 @@ const links = [
   <div class="container bar">
     <a class="brand" href={url(`${lang}/`)} aria-label="HexaGonito">
       <Logo size={46} />
-      <span>Hexa<b>Gonito</b></span>
+      <span class="names"><span>Hexa<b>Gonito</b></span><small>Stinky Interactive</small></span>
     </a>
     <nav aria-label="Main">
       {links.map((l) => {
@@ -57,6 +57,8 @@ const links = [
     font-family: var(--font-display); font-size: 1.3rem; font-weight: 500;
   }
   .brand b { color: var(--gold); font-weight: 700; }
+  .names { display: flex; flex-direction: column; line-height: 1.05; }
+  .names small { font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
   nav { display: flex; gap: 0.25rem; margin-left: auto; }
   nav a {
     font-family: var(--font-display); font-weight: 500; text-decoration: none; color: var(--muted);
@@ -74,7 +76,7 @@ const links = [
   .lang:hover, .theme:hover { border-color: var(--gold); color: var(--gold); }
   @media (max-width: 640px) {
     .bar { padding-block: 0.5rem; }
-    .brand span { display: none; }
+    .brand .names { display: none; }
     nav { margin-left: 0; flex: 1; justify-content: center; }
     .bar { gap: 0.5rem; flex-wrap: nowrap; }
     nav { gap: 0; }

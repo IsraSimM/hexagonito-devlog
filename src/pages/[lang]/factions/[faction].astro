@@ -1,0 +1,161 @@
+---
+import { Image } from "astro:assets";
+import Base from "../../../layouts/Base.astro";
+import HexFrame from "../../../components/HexFrame.astro";
+import { langs, t, url, type Lang } from "../../../i18n/ui";
+import { factions, roles, type Faction } from "../../../data/factions";
+
+export function getStaticPaths() {
+  return langs.flatMap((lang) => factions.map((f) => ({ params: { lang, faction: f.slug }, props: { faction: f } })));
+}
+
+const lang = Astro.params.lang as Lang;
+const { faction } = Astro.props as { faction: Faction };
+const other = factions.find((f) => f.id !== faction.id)!;
+const statKeys = ["health", "attack", "defense", "move", "range"] as const;
+const pad = (n: number) => String(n).padStart(2, "0");
+---
+
+<Base lang={lang} title={faction.name[lang]} description={faction.lead[lang]} path={`factions/${faction.slug}/`}>
+  <div class:list={["faction", faction.id]} style={`--fa:${faction.accent};--fb:${faction.accent2}`}>
+    <section class="hero">
+      <div class="container hero-in">
+        <a class="back" href={url(`${lang}/factions/`)}>← {t(lang, "factions.title")}</a>
+        <p class="motto">{faction.motto[lang]}</p>
+        <h1>{faction.name[lang]}</h1>
+        <p class="lead">{faction.lead[lang]}</p>
+        <nav class="roster" aria-label={t(lang, "factions.units")}>
+          {faction.units.map((u) => (
+            <a href={`#${u.role}`} style={`--r:${roles[u.role].color}`} title={u.name[lang]}>
+              <Image src={u.portrait} alt="" width={96} />
+              <span>{roles[u.role].label[lang]}</span>
+            </a>
+          ))}
+        </nav>
+      </div>
+    </section>
+
+    <section class="container units">
+      {faction.units.map((u, i) => (
+        <article class="unit" id={u.role} style={`--r:${roles[u.role].color}`}>
+          <HexFrame
+            src={u.portrait}
+            alt={u.name[lang]}
+            orientation="pointy"
+            focus="50% 40%"
+            widths={[240, 400]}
+            sizes="200px"
+            class="portrait"
+          />
+          <div class="info">
+            <div class="top">
+              <span class="role">{roles[u.role].label[lang]}</span>
+              <span class="num">{pad(i + 1)}/{pad(faction.units.length)}</span>
+            </div>
+            <h2>{u.name[lang]}</h2>
+            <p class="title">{u.title[lang]}</p>
+            <p>{u.text[lang]}</p>
+            {u.lore && <p class="lore">{u.lore[lang]}</p>}
+            <h3>{t(lang, "factions.stats")}</h3>
+            {u.stats ? (
+              <dl class="stats">
+                {statKeys.map((k) => (
+                  <div><dt>{t(lang, `factions.${k}`)}</dt><dd>{u.stats![k]}</dd></div>
+                ))}
+              </dl>
+            ) : (
+              <p class="tbd">{t(lang, "factions.tbd")}</p>
+            )}
+            {u.sheet && (
+              <details>
+                <summary>{t(lang, "factions.sheet")}</summary>
+                <Image src={u.sheet} alt={`${t(lang, "factions.sheet")}: ${u.name[lang]}`} widths={[500, 871]} sizes="(max-width: 760px) 90vw, 520px" loading="lazy" />
+              </details>
+            )}
+          </div>
+        </article>
+      ))}
+    </section>
+
+    <section class="container next">
+      <a class="btn" href={url(`${lang}/factions/${other.slug}/`)} style={`--fa:${other.accent}`}>
+        {t(lang, "factions.see")}: {other.name[lang]} →
+      </a>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .hero {
+    padding: 2.5rem 0 3rem;
+    background:
+      radial-gradient(ellipse at 15% 0%, color-mix(in srgb, var(--fa) 28%, transparent), transparent 60%),
+      radial-gradient(ellipse at 90% 100%, color-mix(in srgb, var(--fb) 22%, transparent), transparent 60%);
+    border-bottom: 1px solid color-mix(in srgb, var(--fa) 40%, var(--line));
+  }
+  .back { font-family: var(--font-display); font-weight: 700; text-decoration: none; color: var(--fa); }
+  .motto {
+    margin: 1.6rem 0 0.3rem; font-family: var(--font-display); font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.22em; font-size: 0.85rem; color: var(--fa);
+  }
+  h1 { font-size: clamp(2.6rem, 8vw, 5rem); margin-bottom: 0.2em; }
+  .lead { font-size: 1.15rem; color: var(--muted); max-width: 60ch; }
+  .roster { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 0.5rem; margin-top: 2rem; }
+  .roster a {
+    display: flex; flex-direction: column; align-items: center; gap: 0.25rem; text-decoration: none;
+    padding: 0.4rem 0.2rem; border-radius: 10px; border: 1px solid var(--line); background: var(--surface);
+    transition: border-color 0.15s, transform 0.15s;
+  }
+  .roster a:hover { border-color: var(--r); transform: translateY(-2px); }
+  .roster img { width: 100%; aspect-ratio: 1; object-fit: cover; object-position: 50% 30%; border-radius: 6px; }
+  .roster span { font-size: 0.65rem; font-weight: 700; color: var(--r); text-transform: uppercase; letter-spacing: 0.04em; text-align: center; }
+
+  .units { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 500px), 1fr)); gap: 1.2rem; margin-top: 3rem; }
+  .unit {
+    display: grid; grid-template-columns: 180px 1fr; gap: 1.3rem; align-items: start;
+    padding: 1.4rem; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    border-left: 4px solid var(--r); scroll-margin-top: 90px;
+  }
+  .unit:target { box-shadow: 0 0 0 2px var(--r); }
+  .unit :global(.portrait) { --gold: var(--r); }
+  .top { display: flex; justify-content: space-between; align-items: center; }
+  .role {
+    font-family: var(--font-display); font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--r); padding: 0.15em 0.6em; border-radius: 6px; background: color-mix(in srgb, var(--r) 15%, transparent);
+  }
+  .num { font-family: var(--font-display); color: var(--muted); font-size: 0.85rem; }
+  .info h2 { font-size: 1.6rem; margin: 0.5rem 0 0.1rem; }
+  .title { color: var(--fa); font-weight: 600; margin-bottom: 0.5rem; }
+  .info p { font-size: 0.97rem; }
+  .lore { font-style: italic; color: var(--muted); }
+  .info h3 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin: 1rem 0 0.4rem; }
+  .tbd { display: inline-block; font-size: 0.85rem !important; color: var(--muted); border: 1px dashed var(--line); padding: 0.3em 0.8em; border-radius: 8px; margin: 0; }
+  .stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.3rem; margin: 0; }
+  .stats div { background: var(--surface-2); border-radius: 8px; padding: 0.35rem; text-align: center; }
+  .stats dt { font-size: 0.65rem; color: var(--muted); }
+  .stats dd { margin: 0; font-family: var(--font-display); font-weight: 700; color: var(--r); }
+  details { margin-top: 1rem; }
+  summary { cursor: pointer; font-family: var(--font-display); font-weight: 700; color: var(--fa); }
+  details img { margin-top: 0.8rem; border-radius: 10px; width: 100%; }
+  .next { margin-top: 3rem; display: flex; justify-content: center; }
+  .next .btn:hover { border-color: var(--fa); color: var(--fa); }
+
+  /* Estilo propio de cada facción */
+  .humanos .unit { background: linear-gradient(180deg, color-mix(in srgb, var(--fb) 7%, var(--surface)), var(--surface)); }
+  .humanos h1 { background: linear-gradient(90deg, var(--text), var(--fb)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .orcos .unit {
+    border-radius: 4px;
+    clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 22px 100%, 0 calc(100% - 22px));
+    background: linear-gradient(180deg, color-mix(in srgb, var(--fb) 8%, var(--surface)), var(--surface));
+  }
+  .orcos h1 { color: var(--fa); text-shadow: 3px 3px 0 color-mix(in srgb, var(--fb) 70%, transparent); letter-spacing: 0.03em; }
+  .orcos .motto { color: var(--fb); }
+
+  @media (max-width: 900px) { .roster { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+  @media (max-width: 560px) {
+    .unit { grid-template-columns: 1fr; }
+    .unit :global(.portrait) { max-width: 180px; margin-inline: auto; }
+    .roster { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .stats { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>

@@ -2,6 +2,7 @@
 title: "The combat block"
 summary: "Area counterattacks, damage return, advancing on defeat, attack sequences and per-profile trajectories."
 date: 2026-10-30
+section: mechanics
 milestone: M15.3
 tags: [combat, design]
 ---

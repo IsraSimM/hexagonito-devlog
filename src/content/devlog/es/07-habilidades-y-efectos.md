@@ -2,6 +2,7 @@
 title: "Habilidades y efectos con duración"
 summary: "Un diseño para habilidades, efectos, invocaciones y terreno alterable, y las primeras habilidades jugables."
 date: 2026-11-06
+section: mechanics
 milestone: M21
 tags: [habilidades, diseño, combate]
 ---

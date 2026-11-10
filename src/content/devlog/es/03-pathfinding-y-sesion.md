@@ -2,6 +2,7 @@
 title: "Rutas reales, sesión de juego y algo en pantalla"
 summary: "Movimiento con Dijkstra y terreno con peso, una fachada de sesión y la primera presentación mínima."
 date: 2026-10-25
+section: mechanics
 milestone: M12
 tags: [movimiento, hexágonos, presentación]
 ---

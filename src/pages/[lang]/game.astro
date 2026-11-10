@@ -2,7 +2,7 @@
 import { Image } from "astro:assets";
 import Base from "../../layouts/Base.astro";
 import HexFrame from "../../components/HexFrame.astro";
-import { langs, t, type Lang } from "../../i18n/ui";
+import { langs, t, url, type Lang } from "../../i18n/ui";
 import { features, roadmap } from "../../data/game";
 import stinky from "../../assets/art/stinky.png";
 import humanos from "../../assets/art/humanos.png";
@@ -65,6 +65,7 @@ const statusLabel = {
       <Image src={humanos} alt={es ? "Las 12 unidades humanas" : "The 12 human units"} widths={[700, 1100, 1536]} sizes="(max-width: 1120px) 100vw, 1060px" loading="lazy" />
       <Image src={orcos} alt={es ? "Las 12 unidades orcas" : "The 12 orc units"} widths={[700, 1100, 1536]} sizes="(max-width: 1120px) 100vw, 1060px" loading="lazy" />
     </div>
+    <p><a class="btn" href={url(`${lang}/factions/`)}>{t(lang, "factions.see")} →</a></p>
   </section>
 
   <section class="container block">

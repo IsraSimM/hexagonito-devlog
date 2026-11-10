@@ -2,6 +2,7 @@
 title: "El contenido ahora vive en JSON"
 summary: "Unidades, perfiles de ataque y escenarios salen de C#: añadir una unidad es añadir un archivo."
 date: 2026-10-31
+section: development
 milestone: M17
 tags: [herramientas, contenido]
 ---

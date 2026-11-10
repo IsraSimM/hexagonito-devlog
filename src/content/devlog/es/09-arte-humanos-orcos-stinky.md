@@ -2,6 +2,7 @@
 title: "Arte: humanos, orcos y Stinky"
 summary: "Primer vistazo al concept art: doce roles por facción y la mascota que se convirtió en logo."
 date: 2026-11-10
+section: art
 tags: [arte, facciones]
 cover: ../../../assets/art/humanos.png
 coverAlt: "Concept art de las 12 unidades humanas de HexaGonito"

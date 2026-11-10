@@ -2,6 +2,7 @@
 title: "Real paths, a game session and something on screen"
 summary: "Dijkstra movement over weighted terrain, a session facade and the first minimal presentation."
 date: 2026-10-25
+section: mechanics
 milestone: M12
 tags: [movement, hexes, presentation]
 ---

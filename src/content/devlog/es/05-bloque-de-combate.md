@@ -2,6 +2,7 @@
 title: "El bloque de combate"
 summary: "Contraataque en área, devolución de daño, avance al derrotar, secuencias de ataque y trayectorias por perfil."
 date: 2026-10-30
+section: mechanics
 milestone: M15.3
 tags: [combate, diseño]
 ---

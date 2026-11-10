@@ -1,12 +1,13 @@
 ---
-import { Image } from "astro:assets";
+import { Image, getImage } from "astro:assets";
 import Base from "../../layouts/Base.astro";
 import Logo from "../../components/Logo.astro";
 import PostCard from "../../components/PostCard.astro";
+import LaunchBox from "../../components/LaunchBox.astro";
 import { getPosts, langs, t, url, type Lang } from "../../i18n/ui";
 import { stats } from "../../data/game";
-import humanos from "../../assets/art/humanos.png";
-import orcos from "../../assets/art/orcos.png";
+import { sections, sectionKeys } from "../../data/sections";
+import { factions } from "../../data/factions";
 
 export function getStaticPaths() {
   return langs.map((lang) => ({ params: { lang } }));
@@ -15,21 +16,21 @@ export function getStaticPaths() {
 const lang = Astro.params.lang as Lang;
 const posts = await getPosts(lang);
 const [latest, ...rest] = posts;
-const factions = [
-  { img: humanos, name: lang === "es" ? "Humanos" : "Humans", color: "var(--crest)", alt: lang === "es" ? "Concept art de las 12 unidades humanas" : "Concept art of the 12 human units" },
-  { img: orcos, name: lang === "es" ? "Orcos" : "Orcs", color: "var(--ork)", alt: lang === "es" ? "Concept art de las 12 unidades orcas" : "Concept art of the 12 orc units" },
-];
+const og = (await getImage({ src: factions[0].sheet, width: 1200, format: "jpg" })).src;
+const latestIn = (s: string) => posts.find((p) => p.data.section === s);
 ---
 
-<Base lang={lang}>
+<Base lang={lang} image={og}>
   <section class="hero">
     <div class="container hero-grid">
       <div>
-        <p class="kicker">{t(lang, "home.kicker")}</p>
-        <h1>{t(lang, "home.title")}</h1>
+        <p class="kicker">{t(lang, "studio.presents")}</p>
+        <h1 class="game">Hexa<span>Gonito</span></h1>
+        <p class="tagline">{t(lang, "site.tagline")}</p>
         <p class="lead">{t(lang, "home.lead")}</p>
         <div class="ctas">
           <a class="btn primary" href={url(`${lang}/devlog/`)}>{t(lang, "home.cta.devlog")} →</a>
+          <a class="btn" href={url(`${lang}/factions/`)}>{t(lang, "nav.factions")}</a>
           <a class="btn" href={url(`${lang}/game/`)}>{t(lang, "home.cta.game")}</a>
         </div>
       </div>
@@ -38,12 +39,35 @@ const factions = [
       </div>
     </div>
     <div class="container">
+      <LaunchBox lang={lang} />
       <dl class="stats">
         <div><dt>{t(lang, "stats.tests")}</dt><dd>{stats.tests}</dd></div>
         <div><dt>{t(lang, "stats.units")}</dt><dd>{stats.units}</dd></div>
         <div><dt>{t(lang, "stats.milestones")}</dt><dd>{stats.milestones}</dd></div>
         <div><dt>{t(lang, "stats.engine")}</dt><dd>{stats.engine}</dd></div>
       </dl>
+    </div>
+  </section>
+
+  <section class="container section">
+    <div class="section-head">
+      <h2>{t(lang, "sections.title")}</h2>
+    </div>
+    <div class="secs">
+      {sectionKeys.map((s) => {
+        const sec = sections[s];
+        const n = posts.filter((p) => p.data.section === s).length;
+        const last = latestIn(s);
+        return (
+          <a class="sec" href={url(`${lang}/devlog/${s}/`)} style={`--c:${sec.color}`}>
+            <span class="icon" aria-hidden="true">{sec.icon}</span>
+            <h3>{sec.label[lang]}</h3>
+            <p class="muted">{sec.lead[lang]}</p>
+            {last && <p class="last"><small>{lang === "es" ? "Última" : "Latest"}</small>{last.data.title}</p>}
+            <span class="count">{n} {t(lang, "sections.posts")} →</span>
+          </a>
+        );
+      })}
     </div>
   </section>
 
@@ -61,26 +85,31 @@ const factions = [
   <section class="container section">
     <div class="section-head">
       <div>
-        <h2>{t(lang, "home.factions")}</h2>
-        <p class="muted">{t(lang, "home.factions.lead")}</p>
+        <h2>{t(lang, "factions.title")}</h2>
+        <p class="muted">{t(lang, "factions.lead")}</p>
       </div>
+      <a href={url(`${lang}/factions/`)}>{t(lang, "home.all")} →</a>
     </div>
     <div class="factions">
       {factions.map((f) => (
-        <figure style={`--accent:${f.color}`}>
-          <Image src={f.img} alt={f.alt} widths={[600, 1000, 1536]} sizes="(max-width: 860px) 100vw, 540px" />
-          <figcaption>{f.name}</figcaption>
-        </figure>
+        <a class="fac" href={url(`${lang}/factions/${f.slug}/`)} style={`--fa:${f.accent}`}>
+          <Image src={f.sheet} alt={f.name[lang]} widths={[600, 1000, 1536]} sizes="(max-width: 860px) 100vw, 540px" />
+          <span class="fname">{f.name[lang]}</span>
+          <span class="motto">{f.motto[lang]}</span>
+        </a>
       ))}
     </div>
   </section>
 </Base>
 
 <style>
-  .hero { padding: clamp(2.5rem, 7vw, 5.5rem) 0 2rem; }
+  .hero { padding: clamp(2.5rem, 7vw, 5rem) 0 2rem; }
   .hero-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 2.5rem; align-items: center; }
-  .lead { font-size: 1.2rem; color: var(--muted); max-width: 52ch; }
-  .ctas { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.6rem; }
+  .game { font-size: clamp(3rem, 9vw, 5.6rem); margin: 0.1em 0 0; letter-spacing: 0.01em; }
+  .game span { color: var(--gold); }
+  .tagline { font-family: var(--font-display); font-size: clamp(1.1rem, 2.4vw, 1.5rem); font-weight: 500; margin-bottom: 1rem; }
+  .lead { font-size: 1.1rem; color: var(--muted); max-width: 54ch; }
+  .ctas { display: flex; gap: 0.7rem; flex-wrap: wrap; margin-top: 1.6rem; }
   .emblem { display: grid; place-items: center; }
   .hexframe {
     width: min(100%, 340px); aspect-ratio: 1 / 1.1547; display: grid; place-items: center;
@@ -92,8 +121,9 @@ const factions = [
     animation: float 6s ease-in-out infinite;
   }
   @keyframes float { 50% { transform: translateY(-10px) rotate(-1.5deg); } }
+  .hero :global(.launch) { margin-top: 2.5rem; }
   .stats {
-    margin: 3rem 0 0; display: grid; grid-template-columns: repeat(4, 1fr);
+    margin: 1rem 0 0; display: grid; grid-template-columns: repeat(4, 1fr);
     border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); overflow: hidden;
   }
   .stats div { padding: 1.1rem 1.3rem; border-left: 1px solid var(--line); display: flex; flex-direction: column-reverse; }
@@ -105,22 +135,44 @@ const factions = [
   .section-head h2 { margin: 0; }
   .section-head p { margin: 0.3rem 0 0; }
   .section-head a { font-family: var(--font-display); font-weight: 700; white-space: nowrap; }
+  .secs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+  .sec {
+    display: flex; flex-direction: column; padding: 1.5rem; text-decoration: none; color: var(--text);
+    border-radius: var(--radius); border: 1px solid var(--line); border-top: 4px solid var(--c);
+    background: linear-gradient(180deg, color-mix(in srgb, var(--c) 10%, var(--surface)), var(--surface) 60%);
+    transition: transform 0.18s, border-color 0.18s;
+  }
+  .sec:hover { transform: translateY(-3px); border-color: var(--c); }
+  .sec .icon {
+    display: inline-grid; place-items: center; width: 2.8rem; aspect-ratio: 1 / 1.1547; margin-bottom: 0.8rem;
+    clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+    background: var(--c); color: var(--gold-ink); font-family: var(--font-display); font-weight: 700;
+  }
+  .sec h3 { color: var(--c); font-size: 1.5rem; font-weight: 700; margin-bottom: 0.3em; }
+  .sec p { font-size: 0.95rem; }
+  .last { font-size: 0.9rem !important; color: var(--text); flex: 1; font-weight: 600; }
+  .last small { display: block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--c); font-weight: 700; }
+  .count { font-family: var(--font-display); font-weight: 700; color: var(--c); }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; margin-top: 1.2rem; }
   .factions { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
-  figure { margin: 0; position: relative; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); }
-  figure img { width: 100%; transition: transform 0.4s; }
-  figure:hover img { transform: scale(1.03); }
-  figcaption {
-    position: absolute; left: 1rem; bottom: 1rem; padding: 0.3em 0.9em; border-radius: 8px;
-    background: var(--accent); color: #fff; font-family: var(--font-display); font-weight: 700; letter-spacing: 0.05em;
+  .fac { position: relative; display: block; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); border-bottom: 4px solid var(--fa); }
+  .fac img { width: 100%; transition: transform 0.4s; }
+  .fac:hover img { transform: scale(1.03); }
+  .fname {
+    position: absolute; left: 1rem; bottom: 2.6rem; padding: 0.25em 0.9em; border-radius: 8px;
+    background: var(--fa); color: #fff; font-family: var(--font-display); font-weight: 700; font-size: 1.2rem;
+  }
+  .motto {
+    position: absolute; left: 1rem; bottom: 0.9rem; font-family: var(--font-display); font-weight: 700;
+    font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: #fff; text-shadow: 0 1px 4px #000;
   }
   @media (max-width: 860px) {
     .hero-grid { grid-template-columns: 1fr; }
     .emblem { order: -1; }
-    .hexframe { width: 180px; }
+    .hexframe { width: 160px; }
     .stats { grid-template-columns: repeat(2, 1fr); }
     .stats div:nth-child(3) { border-left: 0; }
     .stats div:nth-child(n + 3) { border-top: 1px solid var(--line); }
-    .factions { grid-template-columns: 1fr; }
+    .secs, .factions { grid-template-columns: 1fr; }
   }
 </style>

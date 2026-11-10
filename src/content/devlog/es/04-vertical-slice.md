@@ -2,6 +2,7 @@
 title: "Vertical slice: la primera partida completa"
 summary: "Dos jugadores, catorce unidades y una partida de principio a fin. HexaGonito ya se juega."
 date: 2026-10-26
+section: development
 milestone: M15
 tags: [hito, jugable, presentación]
 ---

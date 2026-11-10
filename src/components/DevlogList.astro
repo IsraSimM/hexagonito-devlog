@@ -1,0 +1,93 @@
+---
+import type { CollectionEntry } from "astro:content";
+import PostCard from "./PostCard.astro";
+import { t, url, type Lang } from "../i18n/ui";
+import { sections, sectionKeys, type Section } from "../data/sections";
+
+interface Props {
+  lang: Lang;
+  posts: CollectionEntry<"devlog">[];
+  allPosts: CollectionEntry<"devlog">[];
+  section?: Section;
+}
+const { lang, posts, allPosts, section } = Astro.props;
+const tags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
+const count = (s: Section) => allPosts.filter((p) => p.data.section === s).length;
+const heading = section ? sections[section].label[lang] : t(lang, "devlog.title");
+const lead = section ? sections[section].lead[lang] : t(lang, "devlog.lead");
+const rss = section ? url(`${lang}/devlog/${section}/rss.xml`) : url(`${lang}/rss.xml`);
+---
+
+<section class="container head" style={section ? `--c:${sections[section].color}` : "--c:var(--gold)"}>
+  <p class="kicker">{section ? t(lang, "devlog.title") : "HexaGonito"}</p>
+  <h1>{heading}</h1>
+  <p class="muted">{lead} <a href={rss}>RSS</a></p>
+
+  <nav class="tabs" aria-label={t(lang, "devlog.title")}>
+    <a href={url(`${lang}/devlog/`)} aria-current={!section ? "page" : undefined} style="--c:var(--gold)">
+      {t(lang, "devlog.all")} <span>{allPosts.length}</span>
+    </a>
+    {sectionKeys.map((s) => (
+      <a href={url(`${lang}/devlog/${s}/`)} aria-current={section === s ? "page" : undefined} style={`--c:${sections[s].color}`}>
+        {sections[s].icon} {sections[s].label[lang]} <span>{count(s)}</span>
+      </a>
+    ))}
+  </nav>
+
+  {tags.length > 1 && (
+    <div class="filters" role="group" aria-label={t(lang, "devlog.filter")}>
+      <button type="button" data-tag="" aria-pressed="true">#</button>
+      {tags.map((tag) => <button type="button" data-tag={tag} aria-pressed="false">#{tag}</button>)}
+    </div>
+  )}
+</section>
+<section class="container grid" id="posts">
+  {posts.map((post) => <PostCard post={post} lang={lang} />)}
+</section>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>(".filters button");
+  const cards = document.querySelectorAll<HTMLElement>("#posts .card");
+  function apply(tag: string) {
+    buttons.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.tag === tag)));
+    cards.forEach((c) => {
+      const tags = (c.dataset.tags ?? "").split(",");
+      c.hidden = tag !== "" && !tags.includes(tag);
+    });
+  }
+  buttons.forEach((b) =>
+    b.addEventListener("click", () => {
+      const tag = b.dataset.tag ?? "";
+      apply(tag);
+      history.replaceState(null, "", tag ? `#${encodeURIComponent(tag)}` : location.pathname);
+    }),
+  );
+  const initial = decodeURIComponent(location.hash.slice(1));
+  if (initial) apply(initial);
+</script>
+
+<style>
+  .head { padding-top: 3rem; margin-bottom: 2rem; }
+  .head h1 { color: var(--c); }
+  .tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.6rem; }
+  .tabs a {
+    display: inline-flex; align-items: center; gap: 0.5em;
+    font-family: var(--font-display); font-weight: 700; text-decoration: none;
+    padding: 0.55em 1em; border-radius: 10px;
+    border: 1px solid var(--line); background: var(--surface); color: var(--text);
+  }
+  .tabs a span { font-size: 0.75rem; color: var(--muted); background: var(--surface-2); padding: 0.05em 0.5em; border-radius: 999px; }
+  .tabs a:hover { border-color: var(--c); color: var(--c); }
+  .tabs a[aria-current="page"] { background: var(--c); border-color: var(--c); color: var(--gold-ink); }
+  .tabs a[aria-current="page"] span { background: rgba(0,0,0,0.18); color: inherit; }
+  .filters { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+  .filters button {
+    font: inherit; font-size: 0.8rem; font-weight: 600; cursor: pointer;
+    padding: 0.25em 0.8em; border-radius: 999px;
+    border: 1px solid var(--line); background: transparent; color: var(--muted);
+  }
+  .filters button:hover { border-color: var(--c); color: var(--text); }
+  .filters button[aria-pressed="true"] { border-color: var(--c); color: var(--c); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1.2rem; }
+  .grid :global(.card[hidden]) { display: none; }
+</style>

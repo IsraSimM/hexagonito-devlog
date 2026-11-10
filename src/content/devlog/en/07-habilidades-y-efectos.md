@@ -2,6 +2,7 @@
 title: "Abilities and timed effects"
 summary: "A design for abilities, effects, summons and alterable terrain, plus the first playable abilities."
 date: 2026-11-06
+section: mechanics
 milestone: M21
 tags: [abilities, design, combat]
 ---

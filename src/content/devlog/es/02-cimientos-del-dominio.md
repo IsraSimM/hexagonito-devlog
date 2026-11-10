@@ -2,6 +2,7 @@
 title: "Cimientos del dominio: grid, unidades y turnos"
 summary: "Una semana de bases: cuadrícula hexagonal, ocupación, turnos y las primeras piezas del combate."
 date: 2026-10-14
+section: development
 tags: [arquitectura, combate, hexágonos]
 ---
 

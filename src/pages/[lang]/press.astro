@@ -1,0 +1,115 @@
+---
+import { Image } from "astro:assets";
+import Base from "../../layouts/Base.astro";
+import Logo from "../../components/Logo.astro";
+import LaunchBox from "../../components/LaunchBox.astro";
+import { formatDate, langs, t, url, type Lang } from "../../i18n/ui";
+import { launch, studio } from "../../data/launch";
+import { features } from "../../data/game";
+import { factions } from "../../data/factions";
+import stinky from "../../assets/art/stinky.png";
+import humanosUrl from "../../assets/art/humanos.png?url";
+import orcosUrl from "../../assets/art/orcos.png?url";
+import stinkyUrl from "../../assets/art/stinky.png?url";
+
+export function getStaticPaths() {
+  return langs.map((lang) => ({ params: { lang } }));
+}
+const lang = Astro.params.lang as Lang;
+const es = lang === "es";
+
+const facts: [string, string][] = [
+  [es ? "Desarrollador" : "Developer", studio.name],
+  [es ? "Género" : "Genre", es ? "Estrategia por turnos, tablero hexagonal" : "Turn-based strategy, hex board"],
+  [es ? "Plataformas" : "Platforms", launch.platforms.join(", ")],
+  [es ? "Lanzamiento" : "Release", launch.releaseDate ? formatDate(new Date(launch.releaseDate), lang) : t(lang, "launch.tba")],
+  [es ? "Precio" : "Price", launch.price ?? (es ? "Por anunciar" : "TBA")],
+  [es ? "Jugadores" : "Players", es ? "2 (hot-seat); IA y multijugador en desarrollo" : "2 (hot-seat); AI and multiplayer in development"],
+  [es ? "Motor" : "Engine", "Unity 6.3"],
+  [es ? "Idiomas" : "Languages", es ? "Español, inglés" : "Spanish, English"],
+];
+
+const assets = [
+  { label: es ? "Logo (SVG, vectorial)" : "Logo (SVG, vector)", href: url("LOGO.svg") },
+  { label: es ? "Logo (PNG, alta resolución)" : "Logo (PNG, high-res)", href: url("LOGO.png") },
+  { label: es ? "Concept art: Humanos (PNG)" : "Concept art: Humans (PNG)", href: humanosUrl },
+  { label: es ? "Concept art: Orcos (PNG)" : "Concept art: Orcs (PNG)", href: orcosUrl },
+  { label: es ? "Render de Stinky (PNG)" : "Stinky render (PNG)", href: stinkyUrl },
+];
+---
+
+<Base lang={lang} title={t(lang, "press.title")} description={t(lang, "press.lead")} path="press/">
+  <section class="container head">
+    <p class="kicker">{studio.name}</p>
+    <h1>{t(lang, "press.title")}</h1>
+    <p class="muted">{t(lang, "press.lead")}</p>
+    <LaunchBox lang={lang} />
+  </section>
+
+  <section class="container cols">
+    <div>
+      <h2>{es ? "Descripción" : "Description"}</h2>
+      {es ? (
+        <>
+          <p><strong>HexaGonito</strong> es un juego de estrategia por turnos sobre una cuadrícula hexagonal, desarrollado por <strong>{studio.name}</strong>. Dos facciones, humanos y orcos, comparten doce roles —del soldado al druida— pero cada una los juega a su manera.</p>
+          <p>Cada casilla cuenta: el terreno cambia el coste de cada ruta, los ataques de área y en cadena castigan las formaciones descuidadas y las habilidades —veneno, escudos, aturdimiento, curación— convierten cada turno en un pequeño rompecabezas táctico.</p>
+        </>
+      ) : (
+        <>
+          <p><strong>HexaGonito</strong> is a turn-based strategy game on a hexagonal grid, developed by <strong>{studio.name}</strong>. Two factions, humans and orcs, share twelve roles—from soldier to druid—but each plays them its own way.</p>
+          <p>Every tile matters: terrain changes the cost of each path, area and chain attacks punish careless formations, and abilities—poison, shields, stuns, heals—turn every turn into a small tactical puzzle.</p>
+        </>
+      )}
+      <h2>{es ? "Características" : "Features"}</h2>
+      <ul>
+        {features.map((f) => <li><strong>{f.title[lang]}.</strong> {f.text[lang]}</li>)}
+        <li><strong>{es ? "Dos facciones" : "Two factions"}.</strong> {factions.map((f) => f.name[lang]).join(es ? " y " : " and ")}, {es ? "12 unidades cada una" : "12 units each"}.</li>
+      </ul>
+    </div>
+    <aside>
+      <h2>{es ? "Ficha" : "Fact sheet"}</h2>
+      <dl class="facts">
+        {facts.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+        {studio.contactEmail && <div><dt>{es ? "Contacto" : "Contact"}</dt><dd><a href={`mailto:${studio.contactEmail}`}>{studio.contactEmail}</a></dd></div>}
+      </dl>
+    </aside>
+  </section>
+
+  <section class="container">
+    <h2>{es ? "Recursos descargables" : "Downloadable assets"}</h2>
+    <div class="assets">
+      <div class="logo-tile"><Logo size="70%" /></div>
+      <ul>
+        {assets.map((a) => <li><a href={a.href} download>{a.label}</a></li>)}
+      </ul>
+      <Image src={stinky} alt="Stinky" widths={[400, 800]} sizes="(max-width: 760px) 100vw, 360px" class="render" />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .head { padding-top: 3rem; margin-bottom: 2.5rem; }
+  .head :global(.launch) { margin-top: 1.5rem; }
+  .cols { display: grid; grid-template-columns: 1.6fr 1fr; gap: 2.5rem; }
+  .cols p, .cols li { max-width: 65ch; }
+  ul { padding-left: 1.2em; }
+  li { margin: 0.4em 0; }
+  li::marker { color: var(--gold); }
+  aside { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.4rem; align-self: start; }
+  .facts { margin: 0; display: grid; gap: 0.6rem; }
+  .facts div { display: grid; grid-template-columns: 7.5rem 1fr; gap: 0.6rem; border-bottom: 1px solid var(--line); padding-bottom: 0.6rem; }
+  .facts div:last-child { border: 0; padding: 0; }
+  .facts dt { color: var(--muted); font-size: 0.9rem; }
+  .facts dd { margin: 0; font-weight: 600; }
+  section + section { margin-top: 3.5rem; }
+  .assets { display: grid; grid-template-columns: 200px 1fr 360px; gap: 1.5rem; align-items: center; }
+  .logo-tile { aspect-ratio: 1; display: grid; place-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); --logo-cut: var(--surface); }
+  .assets ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.5rem; }
+  .assets li::before { content: "↓ "; color: var(--gold); font-weight: 700; }
+  .assets a { font-weight: 600; }
+  .assets :global(.render) { border-radius: var(--radius); border: 1px solid var(--line); width: 100%; }
+  @media (max-width: 860px) {
+    .cols, .assets { grid-template-columns: 1fr; }
+    .logo-tile { max-width: 200px; }
+  }
+</style>

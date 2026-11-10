@@ -2,6 +2,7 @@
 title: "Domain foundations: grid, units and turns"
 summary: "A week of groundwork: hex grid, occupancy, turns and the first pieces of combat."
 date: 2026-10-14
+section: development
 tags: [architecture, combat, hexes]
 ---
 

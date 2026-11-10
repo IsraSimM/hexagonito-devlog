@@ -2,6 +2,7 @@
 title: "Nace HexaGonito"
 summary: "Primer commit, primeras reglas: por qué empezamos por la arquitectura y no por los gráficos."
 date: 2026-10-06
+section: development
 tags: [anuncio, arquitectura]
 ---
 

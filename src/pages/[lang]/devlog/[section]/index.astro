@@ -1,0 +1,19 @@
+---
+import Base from "../../../../layouts/Base.astro";
+import DevlogList from "../../../../components/DevlogList.astro";
+import { getPosts, langs, type Lang } from "../../../../i18n/ui";
+import { sections, sectionKeys, type Section } from "../../../../data/sections";
+
+export function getStaticPaths() {
+  return langs.flatMap((lang) => sectionKeys.map((section) => ({ params: { lang, section } })));
+}
+
+const lang = Astro.params.lang as Lang;
+const section = Astro.params.section as Section;
+const all = await getPosts(lang);
+const posts = all.filter((p) => p.data.section === section);
+---
+
+<Base lang={lang} title={sections[section].label[lang]} description={sections[section].lead[lang]} path={`devlog/${section}/`}>
+  <DevlogList lang={lang} posts={posts} allPosts={all} section={section} />
+</Base>

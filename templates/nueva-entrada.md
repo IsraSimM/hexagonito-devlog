@@ -2,6 +2,7 @@
 title: "Título de la entrada"
 summary: "Una o dos frases. Aparece en la tarjeta, en el RSS y al compartir el enlace."
 date: 2026-11-15
+section: development     # development (Desarrollo) | art (Arte) | mechanics (Mecánicas)
 milestone: M23            # opcional: insignia hexagonal con el hito
 tags: [combate, diseño]   # se usan para filtrar en /devlog
 cover: ../../../assets/art/humanos.png   # opcional: imagen dentro de src/assets

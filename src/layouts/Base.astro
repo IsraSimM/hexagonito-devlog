@@ -26,7 +26,7 @@ const {
   type = "website",
 } = Astro.props;
 
-const fullTitle = title ? `${title} · HexaGonito` : `HexaGonito · ${t(lang, "site.tagline")}`;
+const fullTitle = title ? `${title} · HexaGonito` : `HexaGonito · ${t(lang, "site.tagline")} · Stinky Interactive`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = image ? new URL(image, Astro.site).href : undefined;
 ---
@@ -47,6 +47,8 @@ const ogImage = image ? new URL(image, Astro.site).href : undefined;
     ))}
     <meta name="theme-color" content="#12141a" />
     <meta property="og:type" content={type} />
+    <meta property="og:site_name" content="HexaGonito · Stinky Interactive" />
+    <meta name="author" content="Stinky Interactive" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />

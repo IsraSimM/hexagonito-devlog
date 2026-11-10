@@ -2,6 +2,7 @@
 title: "Modificadores: aturdir, silenciar, escudos e invulnerabilidad"
 summary: "Bonos, penalizaciones y bloqueos de acción que cambian las estadísticas efectivas de una unidad."
 date: 2026-11-08
+section: mechanics
 milestone: M22
 tags: [habilidades, combate]
 ---

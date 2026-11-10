@@ -16,6 +16,9 @@
   --crest: #d4483b;      /* cresta roja / humanos */
   --ork: #7fb347;        /* orcos */
   --water: #4aa3df;
+  --sec-dev: #4aa3df;
+  --sec-art: #c77dff;
+  --sec-mech: #e8644f;
   --hex-stroke: rgba(224, 164, 58, 0.07);
   --logo-ink: var(--text);
   --logo-cut: var(--bg);
@@ -40,6 +43,9 @@
   --crest: #b8382c;
   --ork: #4f8a1f;
   --water: #2378b5;
+  --sec-dev: #1f6fae;
+  --sec-art: #8a3fc4;
+  --sec-mech: #c0402c;
   --hex-stroke: rgba(185, 122, 18, 0.1);
   --shadow: 0 10px 30px rgba(60, 45, 20, 0.12);
   color-scheme: light;
@@ -157,3 +163,15 @@ p { margin: 0 0 1em; text-wrap: pretty; }
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
 }
+
+/* Chip de sección */
+.sec-chip {
+  display: inline-flex; align-items: center; gap: 0.35em;
+  font-family: var(--font-display); font-weight: 700; font-size: 0.75rem;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--c); text-decoration: none;
+  padding: 0.2em 0.7em; border-radius: 999px;
+  background: color-mix(in srgb, var(--c) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--c) 40%, transparent);
+}
+a.sec-chip:hover { background: color-mix(in srgb, var(--c) 24%, transparent); }

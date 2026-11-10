@@ -2,6 +2,7 @@
 title: "Art: humans, orcs and Stinky"
 summary: "A first look at the concept art: twelve roles per faction and the mascot that became our logo."
 date: 2026-11-10
+section: art
 tags: [art, factions]
 cover: ../../../assets/art/humanos.png
 coverAlt: "Concept art of HexaGonito's 12 human units"
