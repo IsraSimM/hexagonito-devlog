@@ -3,7 +3,6 @@ faction: humanos
 role: tanque
 order: 8
 portrait: ../../../assets/units/humanos/tanque.png
-sheet: ../../../assets/units/humanos/sheets/tanque.jpg
 # Estadísticas: null = "Por definir". Ejemplo: { health: 10, attack: 4, defense: 2, move: 3, range: "1" }
 stats: null
 es:

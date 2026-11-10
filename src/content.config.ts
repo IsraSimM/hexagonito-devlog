@@ -79,7 +79,6 @@ const units = defineCollection({
       role: reference("roles"),
       order: z.number(),
       portrait: image(),
-      sheet: image().optional(),
       stats: z
         .object({
           health: z.number(),

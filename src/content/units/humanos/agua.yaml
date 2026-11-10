@@ -3,7 +3,6 @@ faction: humanos
 role: agua
 order: 7
 portrait: ../../../assets/units/humanos/agua.png
-sheet: ../../../assets/units/humanos/sheets/agua.jpg
 # Estadísticas: null = "Por definir". Ejemplo: { health: 10, attack: 4, defense: 2, move: 3, range: "1" }
 stats: null
 es:

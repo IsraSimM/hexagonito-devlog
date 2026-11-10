@@ -55,7 +55,7 @@ Nada de esto está en el código: todo son archivos de datos.
 | Unidades | `src/content/units/<facción>/<rol>.yaml` |
 
 Cada unidad es una carta en `/es/factions/humans/` u `/es/factions/orcs/`
-(enlazable con `#<rol>`, p. ej. `#tanque`). El botón **Habilidades e historia**
+(enlazable con `#<rol>`, p. ej. `#tanque`). El botón mini de la esquina
 la voltea. En su YAML, por idioma (`es:` / `en:`), puedes rellenar:
 
 ```yaml
@@ -69,9 +69,9 @@ la voltea. En su YAML, por idioma (`es:` / `en:`), puedes rellenar:
     Segundo párrafo (separa párrafos con una línea en blanco).
 ```
 
-Y, comunes a ambos idiomas: `stats: { health, attack, defense, move, range }`,
-`portrait` y `sheet` (hoja de modelo; si existe aparece “Ver hoja de modelo” en el
-reverso). Lo que falte se muestra como “Por definir”. Para añadir una unidad, crea
+Y, comunes a ambos idiomas: `stats: { health, attack, defense, move, range }` y
+`portrait`. Lo que falte se muestra como “Por definir”. La carta mantiene el tamaño
+del anverso; si el reverso tiene mucho texto, se desplaza dentro de la carta. Para añadir una unidad, crea
 otro `.yaml` en la carpeta de su facción; para otra facción, otro archivo en
 `src/content/factions/` y su carpeta en `src/content/units/`.
 
