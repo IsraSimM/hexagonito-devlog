@@ -25,6 +25,15 @@ gratuito en GitHub Pages. Hecho con [Astro](https://astro.build).
 5. `draft: true` oculta la entrada en producción pero la muestra en `npm run dev`.
 6. Haz commit y push a `main`: GitHub Actions publica el sitio en ~1 minuto.
 
+### Cambiar el arte de un hexágono
+
+Puedes sustituir cualquier imagen de `src/assets/art/` por otra con el mismo
+nombre: el marco hexagonal (`src/components/HexFrame.astro`) la recorta para
+rellenarlo, sea cual sea su proporción. Si el personaje queda descentrado,
+ajusta `focus` (como `object-position`, p. ej. `focus="40% 50%"` lo mueve a la
+derecha) y, si hace falta, `zoom`. Para renders horizontales usa
+`orientation="flat"`; para retratos, `"pointy"`.
+
 Los números de la portada (tests, unidades, hitos) y el roadmap de “El juego”
 están en `src/data/game.ts`. Los textos de la interfaz, en `src/i18n/ui.ts`.
 

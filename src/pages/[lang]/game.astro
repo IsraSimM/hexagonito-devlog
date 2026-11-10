@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import Base from "../../layouts/Base.astro";
+import HexFrame from "../../components/HexFrame.astro";
 import { langs, t, type Lang } from "../../i18n/ui";
 import { features, roadmap } from "../../data/game";
 import stinky from "../../assets/art/stinky.png";
@@ -36,10 +37,13 @@ const statusLabel = {
         </>
       )}
     </div>
-    <figure class="mascot">
-      <Image src={stinky} alt={es ? "Stinky, la mascota de HexaGonito: un zorrillo low-poly con casco espartano" : "Stinky, HexaGonito's mascot: a low-poly skunk wearing a Spartan helmet"} widths={[400, 700]} sizes="(max-width: 860px) 90vw, 420px" />
-      <figcaption>Stinky</figcaption>
-    </figure>
+    <HexFrame
+      class="mascot"
+      src={stinky}
+      focus="50% 50%"
+      caption="Stinky"
+      alt={es ? "Stinky, la mascota de HexaGonito: un zorrillo low-poly con casco espartano" : "Stinky, HexaGonito's mascot: a low-poly skunk wearing a Spartan helmet"}
+    />
   </section>
 
   <section class="container features">
@@ -80,16 +84,6 @@ const statusLabel = {
 <style>
   .intro { display: grid; grid-template-columns: 1.3fr 1fr; gap: 3rem; align-items: center; padding-top: 3.5rem; }
   .lead { font-size: 1.2rem; }
-  .mascot { margin: 0; position: relative; }
-  .mascot img {
-    width: 100%; aspect-ratio: 1 / 1.1547; object-fit: contain; padding: 8%;
-    background: #e5e2e2;
-    clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
-  }
-  .mascot figcaption {
-    position: absolute; bottom: 12%; right: 4%; background: var(--gold); color: var(--gold-ink);
-    font-family: var(--font-display); font-weight: 700; padding: 0.2em 0.8em; border-radius: 8px;
-  }
   .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; margin-top: 4rem; }
   .feature { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.4rem; }
   .feature p { margin: 0; font-size: 0.95rem; }
@@ -118,6 +112,6 @@ const statusLabel = {
   .next { border-color: color-mix(in srgb, var(--gold) 45%, var(--line)); }
   @media (max-width: 860px) {
     .intro { grid-template-columns: 1fr; gap: 1.5rem; }
-    .mascot { max-width: 320px; margin-inline: auto; order: -1; }
+    .intro :global(.mascot) { max-width: 380px; margin-inline: auto; order: -1; }
   }
 </style>
