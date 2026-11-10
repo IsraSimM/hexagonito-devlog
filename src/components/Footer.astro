@@ -1,0 +1,21 @@
+---
+import Logo from "./Logo.astro";
+import { t, url, type Lang } from "../i18n/ui";
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+---
+
+<footer>
+  <div class="container inner">
+    <Logo size={34} />
+    <p class="muted">{t(lang, "footer.made")} {new Date().getFullYear()}</p>
+    <a href={url(`${lang}/rss.xml`)}>{t(lang, "nav.rss")}</a>
+  </div>
+</footer>
+
+<style>
+  footer { border-top: 1px solid var(--line); margin-top: 5rem; background: var(--bg-2); }
+  .inner { display: flex; align-items: center; gap: 1rem; padding-block: 1.6rem; flex-wrap: wrap; color: var(--muted); }
+  p { margin: 0; flex: 1; font-size: 0.9rem; min-width: 200px; }
+  a { font-family: var(--font-display); font-weight: 700; }
+</style>

@@ -1,0 +1,83 @@
+---
+import Logo from "./Logo.astro";
+import { t, url, otherLang, type Lang } from "../i18n/ui";
+
+interface Props { lang: Lang; path: string; alternates: Lang[] }
+const { lang, path, alternates } = Astro.props;
+const other = otherLang(lang);
+const switchHref = alternates.includes(other) ? url(`${other}/${path}`) : url(`${other}/`);
+const current = Astro.url.pathname;
+const links = [
+  { href: url(`${lang}/`), label: t(lang, "nav.home"), exact: true },
+  { href: url(`${lang}/devlog/`), label: t(lang, "nav.devlog") },
+  { href: url(`${lang}/game/`), label: t(lang, "nav.game") },
+];
+---
+
+<header class="site-header">
+  <div class="container bar">
+    <a class="brand" href={url(`${lang}/`)} aria-label="HexaGonito">
+      <Logo size={46} />
+      <span>Hexa<b>Gonito</b></span>
+    </a>
+    <nav aria-label="Main">
+      {links.map((l) => {
+        const active = l.exact ? current === l.href : current.startsWith(l.href);
+        return <a href={l.href} aria-current={active ? "page" : undefined}>{l.label}</a>;
+      })}
+    </nav>
+    <div class="tools">
+      <a class="lang" href={switchHref} hreflang={other} title={t(lang, "lang.switch")}>{other.toUpperCase()}</a>
+      <button class="theme" type="button" aria-label={t(lang, "theme.toggle")} title={t(lang, "theme.toggle")}>
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.39 5.39 0 0 1-4.4 2.26 5.4 5.4 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+  document.querySelector(".site-header .theme")?.addEventListener("click", () => {
+    const root = document.documentElement;
+    const next = root.dataset.theme === "light" ? "dark" : "light";
+    root.dataset.theme = next;
+    try { localStorage.setItem("theme", next); } catch (_) {}
+  });
+</script>
+
+<style>
+  .site-header {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .bar { display: flex; align-items: center; gap: 1rem; min-height: 64px; flex-wrap: wrap; }
+  .brand {
+    display: flex; align-items: center; gap: 0.6rem; text-decoration: none; color: var(--text);
+    font-family: var(--font-display); font-size: 1.3rem; font-weight: 500;
+  }
+  .brand b { color: var(--gold); font-weight: 700; }
+  nav { display: flex; gap: 0.25rem; margin-left: auto; }
+  nav a {
+    font-family: var(--font-display); font-weight: 500; text-decoration: none; color: var(--muted);
+    padding: 0.4em 0.75em; border-radius: 8px;
+  }
+  nav a:hover { color: var(--text); background: var(--surface); }
+  nav a[aria-current="page"] { color: var(--gold); }
+  .tools { display: flex; gap: 0.4rem; }
+  .lang, .theme {
+    display: grid; place-items: center; height: 36px; min-width: 36px; padding: 0 0.6em;
+    border-radius: 8px; border: 1px solid var(--line); background: var(--surface);
+    color: var(--text); font-family: var(--font-display); font-weight: 700; font-size: 0.85rem;
+    text-decoration: none; cursor: pointer;
+  }
+  .lang:hover, .theme:hover { border-color: var(--gold); color: var(--gold); }
+  @media (max-width: 640px) {
+    .bar { padding-block: 0.5rem; }
+    .brand span { display: none; }
+    nav { margin-left: 0; flex: 1; justify-content: center; }
+    .bar { gap: 0.5rem; flex-wrap: nowrap; }
+    nav { gap: 0; }
+    nav a { padding: 0.4em 0.4em; font-size: 0.9rem; white-space: nowrap; }
+  }
+</style>

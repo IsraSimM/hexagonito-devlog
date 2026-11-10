@@ -1,0 +1,31 @@
+---
+import { url } from "../i18n/ui";
+const es = url("es/");
+const en = url("en/");
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HexaGonito · Devlog</title>
+    <link rel="icon" type="image/svg+xml" href={url("favicon.svg")} />
+    <link rel="alternate" hreflang="es" href={new URL(es, Astro.site)} />
+    <link rel="alternate" hreflang="en" href={new URL(en, Astro.site)} />
+    <link rel="alternate" hreflang="x-default" href={new URL(es, Astro.site)} />
+    <meta http-equiv="refresh" content={`1;url=${es}`} />
+    <script is:inline define:vars={{ es, en }}>
+      const langs = navigator.languages || [navigator.language || "es"];
+      const pref = langs.find((l) => /^(es|en)/i.test(l)) || "es";
+      location.replace(/^en/i.test(pref) ? en : es);
+    </script>
+    <style>
+      body { background: #12141a; color: #e8e6e1; font-family: system-ui, sans-serif; display: grid; place-items: center; min-height: 100vh; margin: 0; }
+      a { color: #e0a43a; margin: 0 0.5em; }
+    </style>
+  </head>
+  <body>
+    <p><a href={es}>Español</a> · <a href={en}>English</a></p>
+  </body>
+</html>

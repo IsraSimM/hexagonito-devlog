@@ -1,0 +1,123 @@
+---
+import { Image } from "astro:assets";
+import Base from "../../layouts/Base.astro";
+import { langs, t, type Lang } from "../../i18n/ui";
+import { features, roadmap } from "../../data/game";
+import stinky from "../../assets/art/stinky.png";
+import humanos from "../../assets/art/humanos.png";
+import orcos from "../../assets/art/orcos.png";
+
+export function getStaticPaths() {
+  return langs.map((lang) => ({ params: { lang } }));
+}
+const lang = Astro.params.lang as Lang;
+const es = lang === "es";
+const statusLabel = {
+  done: es ? "Hecho" : "Done",
+  next: es ? "Siguiente" : "Next",
+  later: es ? "Después" : "Later",
+};
+---
+
+<Base lang={lang} title={t(lang, "game.title")} path="game/">
+  <section class="container intro">
+    <div>
+      <p class="kicker">{t(lang, "game.title")}</p>
+      <h1>{es ? "Estrategia por turnos, sin relleno." : "Turn-based strategy, no filler."}</h1>
+      {es ? (
+        <>
+          <p class="lead">HexaGonito es un juego de estrategia por turnos sobre una cuadrícula hexagonal. Hoy se juega en <em>hot-seat</em> para dos jugadores; la visión a largo plazo incluye ciudades, economía, IA y multijugador.</p>
+          <p class="muted">Lo construimos en Unity 6.3 con un dominio puro y determinista en C#: cada acción se valida completa antes de tocar el estado, y una acción rechazada no cambia nada. Eso nos permite tener más de mil tests automáticos y una IA futura que pueda simular jugadas sin miedo.</p>
+        </>
+      ) : (
+        <>
+          <p class="lead">HexaGonito is a turn-based strategy game on a hexagonal grid. Today it plays as two-player <em>hot-seat</em>; the long-term vision includes cities, economy, AI and multiplayer.</p>
+          <p class="muted">We build it in Unity 6.3 on a pure, deterministic C# domain: every action is fully validated before it touches the state, and a rejected action changes nothing. That gives us over a thousand automated tests and a future AI that can simulate moves safely.</p>
+        </>
+      )}
+    </div>
+    <figure class="mascot">
+      <Image src={stinky} alt={es ? "Stinky, la mascota de HexaGonito: un zorrillo low-poly con casco espartano" : "Stinky, HexaGonito's mascot: a low-poly skunk wearing a Spartan helmet"} widths={[400, 700]} sizes="(max-width: 860px) 90vw, 420px" />
+      <figcaption>Stinky</figcaption>
+    </figure>
+  </section>
+
+  <section class="container features">
+    {features.map((f) => (
+      <div class="feature">
+        <span class="icon" aria-hidden="true">{f.icon}</span>
+        <h3>{f.title[lang]}</h3>
+        <p class="muted">{f.text[lang]}</p>
+      </div>
+    ))}
+  </section>
+
+  <section class="container block">
+    <h2>{es ? "Dos bandos, doce roles" : "Two sides, twelve roles"}</h2>
+    <p class="muted">{es
+      ? "Melee, arquero, movilidad, asesino, bombas, volador, agua, tanque, soporte, mago, ingeniero y naturaleza. Humanos y orcos comparten roles para que el balance sea legible, pero cada uno los juega a su manera."
+      : "Melee, archer, mobility, assassin, bombs, flyer, water, tank, support, mage, engineer and nature. Humans and orcs share roles so balance stays readable, but each side plays them its own way."}</p>
+    <div class="art">
+      <Image src={humanos} alt={es ? "Las 12 unidades humanas" : "The 12 human units"} widths={[700, 1100, 1536]} sizes="(max-width: 1120px) 100vw, 1060px" loading="lazy" />
+      <Image src={orcos} alt={es ? "Las 12 unidades orcas" : "The 12 orc units"} widths={[700, 1100, 1536]} sizes="(max-width: 1120px) 100vw, 1060px" loading="lazy" />
+    </div>
+  </section>
+
+  <section class="container block">
+    <h2>Roadmap</h2>
+    <ol class="roadmap">
+      {roadmap.map((r) => (
+        <li class={r.status}>
+          <span class="dot" aria-hidden="true"></span>
+          <span class="label">{r.label[lang]}</span>
+          <span class="status">{statusLabel[r.status]}</span>
+        </li>
+      ))}
+    </ol>
+  </section>
+</Base>
+
+<style>
+  .intro { display: grid; grid-template-columns: 1.3fr 1fr; gap: 3rem; align-items: center; padding-top: 3.5rem; }
+  .lead { font-size: 1.2rem; }
+  .mascot { margin: 0; position: relative; }
+  .mascot img {
+    width: 100%; aspect-ratio: 1 / 1.1547; object-fit: contain; padding: 8%;
+    background: #e5e2e2;
+    clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+  }
+  .mascot figcaption {
+    position: absolute; bottom: 12%; right: 4%; background: var(--gold); color: var(--gold-ink);
+    font-family: var(--font-display); font-weight: 700; padding: 0.2em 0.8em; border-radius: 8px;
+  }
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; margin-top: 4rem; }
+  .feature { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.4rem; }
+  .feature p { margin: 0; font-size: 0.95rem; }
+  .icon {
+    display: inline-grid; place-items: center; width: 2.6rem; aspect-ratio: 1 / 1.1547; margin-bottom: 0.8rem;
+    clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+    background: color-mix(in srgb, var(--gold) 20%, transparent); color: var(--gold);
+    font-family: var(--font-display); font-weight: 700;
+  }
+  .block { margin-top: 4.5rem; }
+  .block > p { max-width: 70ch; }
+  .art { display: grid; gap: 1.2rem; margin-top: 1.5rem; }
+  .art img { border-radius: var(--radius); border: 1px solid var(--line); width: 100%; }
+  .roadmap { list-style: none; padding: 0; margin: 1.5rem 0 0; display: grid; gap: 0.6rem; max-width: 720px; }
+  .roadmap li {
+    display: flex; align-items: center; gap: 0.9rem; padding: 0.8rem 1.1rem;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+  }
+  .dot { width: 14px; aspect-ratio: 1 / 1.1547; flex: none; clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); background: var(--line); }
+  .label { flex: 1; }
+  .status { font-size: 0.8rem; font-weight: 700; font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+  .done .dot { background: var(--ork); }
+  .done .status { color: var(--ork); }
+  .next .dot { background: var(--gold); }
+  .next .status { color: var(--gold); }
+  .next { border-color: color-mix(in srgb, var(--gold) 45%, var(--line)); }
+  @media (max-width: 860px) {
+    .intro { grid-template-columns: 1fr; gap: 1.5rem; }
+    .mascot { max-width: 320px; margin-inline: auto; order: -1; }
+  }
+</style>

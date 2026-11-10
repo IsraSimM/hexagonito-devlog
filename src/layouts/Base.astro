@@ -1,0 +1,80 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { t, url, langs, type Lang } from "../i18n/ui";
+
+interface Props {
+  lang: Lang;
+  title?: string;
+  description?: string;
+  image?: string;
+  /** Ruta sin idioma (p. ej. "devlog/m22-modificadores/") para los enlaces hreflang. */
+  path?: string;
+  /** Idiomas en los que existe esta página (por defecto todos). */
+  alternates?: Lang[];
+  type?: "website" | "article";
+}
+
+const {
+  lang,
+  title,
+  description = t(lang, "site.description"),
+  image,
+  path = "",
+  alternates = langs,
+  type = "website",
+} = Astro.props;
+
+const fullTitle = title ? `${title} · HexaGonito` : `HexaGonito · ${t(lang, "site.tagline")}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = image ? new URL(image, Astro.site).href : undefined;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href={url("favicon.svg")} />
+    <link rel="sitemap" href={url("sitemap-index.xml")} />
+    <link rel="alternate" type="application/rss+xml" title={`HexaGonito devlog (${lang})`} href={url(`${lang}/rss.xml`)} />
+    {alternates.map((l) => (
+      <link rel="alternate" hreflang={l} href={new URL(url(`${l}/${path}`), Astro.site)} />
+    ))}
+    <meta name="theme-color" content="#12141a" />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={lang === "es" ? "es_MX" : "en_US"} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta name="twitter:card" content={ogImage ? "summary_large_image" : "summary"} />
+    <script is:inline>
+      try {
+        const saved = localStorage.getItem("theme");
+        const theme = saved || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+        document.documentElement.dataset.theme = theme;
+      } catch (_) {}
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip</a>
+    <Header lang={lang} path={path} alternates={alternates} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+  </body>
+</html>
+
+<style>
+  .skip {
+    position: absolute; left: -999px; top: 8px; z-index: 100;
+    background: var(--gold); color: var(--gold-ink); padding: 0.5em 1em; border-radius: 8px;
+  }
+  .skip:focus { left: 8px; }
+</style>

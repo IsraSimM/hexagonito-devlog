@@ -1,0 +1,23 @@
+---
+import Base from "../layouts/Base.astro";
+import Logo from "../components/Logo.astro";
+import { t, url } from "../i18n/ui";
+---
+
+<Base lang="es" title="404">
+  <section class="container nf">
+    <Logo size={140} />
+    <p class="kicker">404</p>
+    <h1>{t("es", "404.title")}</h1>
+    <p class="muted">{t("es", "404.lead")} / {t("en", "404.lead")}</p>
+    <div class="ctas">
+      <a class="btn primary" href={url("es/")}>Español</a>
+      <a class="btn" href={url("en/")}>English</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf { display: grid; justify-items: center; text-align: center; padding-top: 5rem; gap: 0.3rem; }
+  .ctas { display: flex; gap: 0.8rem; margin-top: 1rem; }
+</style>

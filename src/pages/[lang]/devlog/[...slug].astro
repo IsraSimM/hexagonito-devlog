@@ -1,0 +1,87 @@
+---
+import { Image, getImage } from "astro:assets";
+import { getCollection, render } from "astro:content";
+import Base from "../../../layouts/Base.astro";
+import { formatDate, getPosts, langs, postLang, postSlug, readingTime, t, url, type Lang } from "../../../i18n/ui";
+
+export async function getStaticPaths() {
+  const all = await getCollection("devlog");
+  const paths = [];
+  for (const lang of langs) {
+    const posts = await getPosts(lang);
+    for (const [i, post] of posts.entries()) {
+      const slug = postSlug(post);
+      const translations = all.filter((p) => postSlug(p) === slug && !p.data.draft).map(postLang);
+      paths.push({
+        params: { lang, slug },
+        props: { post, newer: posts[i - 1], older: posts[i + 1], translations },
+      });
+    }
+  }
+  return paths;
+}
+
+const { post, newer, older, translations } = Astro.props;
+const lang = Astro.params.lang as Lang;
+const slug = postSlug(post);
+const { Content } = await render(post);
+const { title, summary, date, tags, milestone, cover, coverAlt } = post.data;
+const og = cover ? (await getImage({ src: cover, width: 1200, format: "jpg" })).src : undefined;
+---
+
+<Base lang={lang} title={title} description={summary} image={og} path={`devlog/${slug}/`} alternates={translations as Lang[]} type="article">
+  <article class="container post">
+    <a class="back" href={url(`${lang}/devlog/`)}>← {t(lang, "post.back")}</a>
+    <header>
+      <div class="meta">
+        {milestone && <span class="hex-badge">{milestone}</span>}
+        <div>
+          <time datetime={date.toISOString()}>{formatDate(date, lang)}</time>
+          <span class="muted"> · {readingTime(post.body)} {t(lang, "post.readingTime")}</span>
+        </div>
+      </div>
+      <h1>{title}</h1>
+      <p class="summary">{summary}</p>
+      <div class="tags">
+        {tags.map((tag) => <a class="tag" href={url(`${lang}/devlog/`) + `#${tag}`}>#{tag}</a>)}
+      </div>
+    </header>
+    {cover && (
+      <Image class="cover" src={cover} alt={coverAlt ?? ""} widths={[640, 1000, 1536]} sizes="(max-width: 1120px) 100vw, 1060px" loading="eager" />
+    )}
+    <div class="prose">
+      <Content />
+    </div>
+    <nav class="pager">
+      {older ? (
+        <a href={url(`${lang}/devlog/${postSlug(older)}/`)}><small>← {t(lang, "post.prev")}</small>{older.data.title}</a>
+      ) : <span />}
+      {newer && (
+        <a class="right" href={url(`${lang}/devlog/${postSlug(newer)}/`)}><small>{t(lang, "post.next")} →</small>{newer.data.title}</a>
+      )}
+    </nav>
+  </article>
+</Base>
+
+<style>
+  .post { padding-top: 2.2rem; max-width: 860px; }
+  .back { font-family: var(--font-display); font-weight: 700; text-decoration: none; font-size: 0.95rem; }
+  header { margin: 1.8rem 0 2rem; }
+  .meta { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; font-size: 0.9rem; }
+  time { font-weight: 600; }
+  .summary { font-size: 1.25rem; color: var(--muted); }
+  .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .tags a { text-decoration: none; }
+  .tags a:hover { border-color: var(--gold); color: var(--gold); }
+  .cover { width: 100%; border-radius: var(--radius); border: 1px solid var(--line); margin-bottom: 2.5rem; }
+  .pager { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 4rem; }
+  .pager a {
+    display: flex; flex-direction: column; gap: 0.2rem; padding: 1rem 1.2rem;
+    border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface);
+    text-decoration: none; color: var(--text); font-family: var(--font-display); font-weight: 500;
+  }
+  .pager a:hover { border-color: var(--gold); }
+  .pager small { color: var(--gold); font-weight: 700; }
+  .pager .right { text-align: right; grid-column: 2; }
+  @media (max-width: 600px) { .pager { grid-template-columns: 1fr; } .pager .right { grid-column: 1; } }
+</style>
