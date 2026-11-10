@@ -1,0 +1,27 @@
+# Unidad: Asesino / Assassin
+faction: humanos
+role: asesino
+order: 4
+portrait: ../../../assets/units/humanos/asesino.png
+# Estadísticas: null = "Por definir". Ejemplo: { health: 10, attack: 4, defense: 2, move: 3, range: "1" }
+stats: null
+es:
+  name: "Asesino"
+  title: "Daño explosivo"
+  summary: "Elimina objetivos clave rápidamente."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""
+en:
+  name: "Assassin"
+  title: "Burst damage"
+  summary: "Takes out key targets quickly."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""

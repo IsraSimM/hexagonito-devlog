@@ -46,15 +46,34 @@ tiene su página (`/es/devlog/art/`…), su color y su propio RSS
 
 ## Facciones y unidades
 
-`src/data/factions.ts` define las dos facciones y sus 12 unidades. Cada unidad es
-una entrada en `/es/factions/humans/` u `/es/factions/orcs/`, enlazable con
-`#<rol>` (p. ej. `#tanque`). Para cada unidad puedes:
+Nada de esto está en el código: todo son archivos de datos.
 
-- Cambiar nombre, título y descripción (ES/EN).
-- Poner `stats: { health, attack, defense, move, range }` (hoy `null` = “Por definir”).
-- Añadir `lore: { es, en }` con texto libre.
-- Cambiar su retrato en `src/assets/units/<facción>/<rol>.png` o añadir una hoja de
-  modelo en `src/assets/units/<facción>/sheets/<rol>.jpg` (se detecta sola).
+| Qué | Archivo |
+| --- | --- |
+| Facciones (nombre, lema, colores, estilo de carta, URL) | `src/content/factions/<id>.yaml` |
+| Roles (etiqueta y color) | `src/content/roles.yaml` |
+| Unidades | `src/content/units/<facción>/<rol>.yaml` |
+
+Cada unidad es una carta en `/es/factions/humans/` u `/es/factions/orcs/`
+(enlazable con `#<rol>`, p. ej. `#tanque`). El botón **Habilidades e historia**
+la voltea. En su YAML, por idioma (`es:` / `en:`), puedes rellenar:
+
+```yaml
+  passive: { name: "Piel de hierro", text: "Recibe 1 de daño menos de ataques a distancia." }
+  abilities:
+    - { name: "Provocar", text: "Los enemigos adyacentes deben atacarle.", cooldown: 2 }
+    - { name: "Muro de escudos", text: "Gana escudo 3 durante 1 turno.", cost: "1 acción" }
+  story: |
+    Primer párrafo.
+
+    Segundo párrafo (separa párrafos con una línea en blanco).
+```
+
+Y, comunes a ambos idiomas: `stats: { health, attack, defense, move, range }`,
+`portrait` y `sheet` (hoja de modelo; si existe aparece “Ver hoja de modelo” en el
+reverso). Lo que falte se muestra como “Por definir”. Para añadir una unidad, crea
+otro `.yaml` en la carpeta de su facción; para otra facción, otro archivo en
+`src/content/factions/` y su carpeta en `src/content/units/`.
 
 ## Lanzamiento
 

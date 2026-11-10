@@ -1,0 +1,28 @@
+# Unidad: Maga de agua / Water mage
+faction: humanos
+role: agua
+order: 7
+portrait: ../../../assets/units/humanos/agua.png
+sheet: ../../../assets/units/humanos/sheets/agua.jpg
+# Estadísticas: null = "Por definir". Ejemplo: { health: 10, attack: 4, defense: 2, move: 3, range: "1" }
+stats: null
+es:
+  name: "Maga de agua"
+  title: "Control y soporte"
+  summary: "Daño, control de masas y curación."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""
+en:
+  name: "Water mage"
+  title: "Control and support"
+  summary: "Damage, crowd control and healing."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""

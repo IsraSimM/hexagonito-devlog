@@ -1,0 +1,27 @@
+# Unidad: Chamán orco / Orc shaman
+faction: orcos
+role: soporte
+order: 9
+portrait: ../../../assets/units/orcos/soporte.png
+# Estadísticas: null = "Por definir". Ejemplo: { health: 10, attack: 4, defense: 2, move: 3, range: "1" }
+stats: null
+es:
+  name: "Chamán orco"
+  title: "Curación y mejoras"
+  summary: "Curaciones, mejoras y tótems que fortalecen al equipo."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""
+en:
+  name: "Orc shaman"
+  title: "Healing and buffs"
+  summary: "Heals, buffs and totems that strengthen the team."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""

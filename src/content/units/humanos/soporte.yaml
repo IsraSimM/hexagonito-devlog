@@ -1,0 +1,28 @@
+# Unidad: Sanadora / Healer
+faction: humanos
+role: soporte
+order: 9
+portrait: ../../../assets/units/humanos/soporte.png
+sheet: ../../../assets/units/humanos/sheets/soporte.jpg
+# Estadísticas: null = "Por definir". Ejemplo: { health: 10, attack: 4, defense: 2, move: 3, range: "1" }
+stats: null
+es:
+  name: "Sanadora"
+  title: "Curación y mejoras"
+  summary: "Mantiene al equipo en batalla."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""
+en:
+  name: "Healer"
+  title: "Healing and buffs"
+  summary: "Keeps the team in the fight."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""

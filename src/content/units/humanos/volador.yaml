@@ -1,0 +1,28 @@
+# Unidad: Ángel / Angel
+faction: humanos
+role: volador
+order: 6
+portrait: ../../../assets/units/humanos/volador.png
+sheet: ../../../assets/units/humanos/sheets/volador.jpg
+# Estadísticas: null = "Por definir". Ejemplo: { health: 10, attack: 4, defense: 2, move: 3, range: "1" }
+stats: null
+es:
+  name: "Ángel"
+  title: "Unidad aérea"
+  summary: "Gran movilidad y visión del mapa."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""
+en:
+  name: "Angel"
+  title: "Air unit"
+  summary: "Great mobility and map vision."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""

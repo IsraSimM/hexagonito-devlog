@@ -1,0 +1,28 @@
+# Unidad: Ingeniero / Engineer
+faction: humanos
+role: ingeniero
+order: 11
+portrait: ../../../assets/units/humanos/ingeniero.png
+sheet: ../../../assets/units/humanos/sheets/ingeniero.jpg
+# Estadísticas: null = "Por definir". Ejemplo: { health: 10, attack: 4, defense: 2, move: 3, range: "1" }
+stats: null
+es:
+  name: "Ingeniero"
+  title: "Estructuras y utilidades"
+  summary: "Despliega torretas, trampas y artilugios."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""
+en:
+  name: "Engineer"
+  title: "Structures and utilities"
+  summary: "Deploys turrets, traps and gadgets."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""

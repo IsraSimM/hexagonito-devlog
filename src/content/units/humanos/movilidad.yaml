@@ -1,0 +1,28 @@
+# Unidad: Explorador / Scout
+faction: humanos
+role: movilidad
+order: 3
+portrait: ../../../assets/units/humanos/movilidad.png
+sheet: ../../../assets/units/humanos/sheets/movilidad.jpg
+# Estadísticas: null = "Por definir". Ejemplo: { health: 10, attack: 4, defense: 2, move: 3, range: "1" }
+stats: null
+es:
+  name: "Explorador"
+  title: "Especialista en movimiento"
+  summary: "Alta velocidad y reposicionamiento."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""
+en:
+  name: "Scout"
+  title: "Movement specialist"
+  summary: "High speed and repositioning."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""

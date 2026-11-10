@@ -1,0 +1,27 @@
+# Unidad: Bruto orco / Orc brute
+faction: orcos
+role: tanque
+order: 8
+portrait: ../../../assets/units/orcos/tanque.png
+# Estadísticas: null = "Por definir". Ejemplo: { health: 10, attack: 4, defense: 2, move: 3, range: "1" }
+stats: null
+es:
+  name: "Bruto orco"
+  title: "Alta defensa"
+  summary: "Provoca enemigos y protege aliados."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""
+en:
+  name: "Orc brute"
+  title: "High defence"
+  summary: "Taunts enemies and protects allies."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""

@@ -1,0 +1,16 @@
+# Facción. El nombre del archivo es su id; `path` es su URL (/<idioma>/factions/<slug>/).
+path: humans
+order: 1
+accent: "#d4483b"
+accent2: "#4a7fc1"
+# Estilo visual de la página y las cartas: clean (limpio, redondeado) | rugged (cortes en diagonal)
+cardStyle: clean
+sheet: ../../assets/art/humanos.png
+es:
+  name: "Humanos"
+  motto: "Acero · Disciplina · Magia"
+  lead: "Armaduras brillantes, magia elemental e ingenio mecánico. Los humanos ganan con formación y apoyo mutuo."
+en:
+  name: "Humans"
+  motto: "Steel · Discipline · Magic"
+  lead: "Shining armour, elemental magic and mechanical ingenuity. Humans win through formation and mutual support."

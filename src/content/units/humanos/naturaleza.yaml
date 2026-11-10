@@ -1,0 +1,27 @@
+# Unidad: Druida / Druid
+faction: humanos
+role: naturaleza
+order: 12
+portrait: ../../../assets/units/humanos/naturaleza.png
+# Estadísticas: null = "Por definir". Ejemplo: { health: 10, attack: 4, defense: 2, move: 3, range: "1" }
+stats: null
+es:
+  name: "Druida"
+  title: "Invocación y control"
+  summary: "Usa criaturas y el entorno a su favor."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""
+en:
+  name: "Druid"
+  title: "Summoning and control"
+  summary: "Turns creatures and terrain to its advantage."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""

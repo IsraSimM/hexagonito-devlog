@@ -1,0 +1,185 @@
+---
+/**
+ * Carta de unidad con dos caras. Todo el contenido sale de src/content/units/<facción>/<rol>.yaml;
+ * este componente solo lo pinta. Anverso: retrato, rol, resumen y estadísticas.
+ * Reverso (botón): pasiva, habilidades e historia.
+ */
+import { getImage } from "astro:assets";
+import HexFrame from "./HexFrame.astro";
+import { t, type Lang } from "../i18n/ui";
+import type { RoleEntry, UnitEntry } from "../data/factions";
+
+interface Props {
+  unit: UnitEntry;
+  role: RoleEntry["data"];
+  lang: Lang;
+  index: number;
+  total: number;
+}
+const { unit, role, lang, index, total } = Astro.props;
+const d = unit.data;
+const txt = d[lang];
+const id = d.role.id;
+const pad = (n: number) => String(n).padStart(2, "0");
+const statKeys = ["health", "attack", "defense", "move", "range"] as const;
+const sheetUrl = d.sheet ? (await getImage({ src: d.sheet, format: "webp", width: d.sheet.width })).src : null;
+---
+
+<article class="unit-card" id={id} style={`--r:${role.color}`}>
+  <div class="inner">
+    <!-- Anverso -->
+    <div class="face front">
+      <HexFrame src={d.portrait} alt={txt.name} orientation="pointy" focus="50% 40%" widths={[240, 400]} sizes="180px" class="portrait" />
+      <div class="info">
+        <div class="top">
+          <span class="role">{role.label[lang]}</span>
+          <span class="num">{pad(index)}/{pad(total)}</span>
+        </div>
+        <h2>{txt.name}</h2>
+        <p class="title">{txt.title}</p>
+        <p>{txt.summary}</p>
+        <h3>{t(lang, "factions.stats")}</h3>
+        {d.stats ? (
+          <dl class="stats">
+            {statKeys.map((k) => <div><dt>{t(lang, `factions.${k}`)}</dt><dd>{d.stats![k]}</dd></div>)}
+          </dl>
+        ) : (
+          <p class="tbd">{t(lang, "factions.tbd")}</p>
+        )}
+        <button type="button" class="flip" data-flip aria-controls={`${id}-back`} aria-expanded="false">
+          {t(lang, "factions.flip")} ⟳
+        </button>
+      </div>
+    </div>
+
+    <!-- Reverso -->
+    <div class="face back" id={`${id}-back`} inert aria-hidden="true">
+      <div class="back-head">
+        <span class="role">{role.label[lang]}</span>
+        <h2>{txt.name}</h2>
+      </div>
+
+      <section>
+        <h3>{t(lang, "factions.passive")}</h3>
+        {txt.passive ? (
+          <p><strong>{txt.passive.name}.</strong> {txt.passive.text}</p>
+        ) : (
+          <p class="tbd">{t(lang, "factions.tbd")}</p>
+        )}
+      </section>
+
+      <section>
+        <h3>{t(lang, "factions.abilities")}</h3>
+        {txt.abilities.length ? (
+          <ul class="abilities">
+            {txt.abilities.map((a) => (
+              <li>
+                <strong>{a.name}</strong>
+                {(a.cooldown != null || a.cost) && (
+                  <span class="chips">
+                    {a.cooldown != null && <span>{a.cooldown} {t(lang, "factions.cooldown")}</span>}
+                    {a.cost && <span>{t(lang, "factions.cost")}: {a.cost}</span>}
+                  </span>
+                )}
+                <p>{a.text}</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p class="tbd">{t(lang, "factions.tbd")}</p>
+        )}
+      </section>
+
+      <section>
+        <h3>{t(lang, "factions.story")}</h3>
+        {txt.story ? (
+          txt.story.split(/\n{2,}/).map((p) => <p class="story">{p}</p>)
+        ) : (
+          <p class="tbd">{t(lang, "factions.storyTbd")}</p>
+        )}
+      </section>
+
+      <div class="back-foot">
+        {sheetUrl && <a href={sheetUrl} target="_blank" rel="noopener">{t(lang, "factions.viewSheet")} ↗</a>}
+        <button type="button" class="flip" data-flip aria-controls={`${id}-back`}>⟲ {t(lang, "factions.flipBack")}</button>
+      </div>
+    </div>
+  </div>
+</article>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>(".unit-card [data-flip]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const card = btn.closest(".unit-card")!;
+      const flipped = card.classList.toggle("flipped");
+      const front = card.querySelector<HTMLElement>(".front")!;
+      const back = card.querySelector<HTMLElement>(".back")!;
+      front.inert = flipped;
+      back.inert = !flipped;
+      front.setAttribute("aria-hidden", String(flipped));
+      back.setAttribute("aria-hidden", String(!flipped));
+      card.querySelector(".front [data-flip]")?.setAttribute("aria-expanded", String(flipped));
+      (flipped ? back : front).querySelector<HTMLElement>("[data-flip]")?.focus({ preventScroll: true });
+    });
+  });
+</script>
+
+<style>
+  .unit-card { perspective: 1600px; scroll-margin-top: 90px; }
+  .inner { display: grid; transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1); transform-style: preserve-3d; height: 100%; }
+  .flipped .inner { transform: rotateY(180deg); }
+  .face {
+    grid-area: 1 / 1; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+    padding: 1.4rem; background: var(--face-bg, var(--surface)); border: 1px solid var(--line);
+    border-radius: var(--card-radius, var(--radius)); border-left: 4px solid var(--r);
+    clip-path: var(--card-clip, none);
+  }
+  .front { display: grid; grid-template-columns: 170px 1fr; gap: 1.3rem; align-items: start; }
+  .back { transform: rotateY(180deg); display: flex; flex-direction: column; gap: 0.2rem; }
+  .unit-card:target .face { box-shadow: inset 0 0 0 2px var(--r); }
+  .front :global(.portrait) { --gold: var(--r); }
+
+  .top { display: flex; justify-content: space-between; align-items: center; }
+  .role {
+    align-self: flex-start;
+    font-family: var(--font-display); font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--r); padding: 0.15em 0.6em; border-radius: 6px; background: color-mix(in srgb, var(--r) 15%, transparent);
+  }
+  .num { font-family: var(--font-display); color: var(--muted); font-size: 0.85rem; }
+  h2 { font-size: 1.6rem; margin: 0.5rem 0 0.1rem; }
+  .title { color: var(--fa, var(--gold)); font-weight: 600; margin-bottom: 0.5rem; }
+  p { font-size: 0.97rem; }
+  h3 { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin: 1rem 0 0.4rem; }
+  .tbd { display: inline-block; font-size: 0.85rem; color: var(--muted); border: 1px dashed var(--line); padding: 0.3em 0.8em; border-radius: 8px; margin: 0; }
+  .stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.3rem; margin: 0; }
+  .stats div { background: var(--surface-2); border-radius: 8px; padding: 0.35rem; text-align: center; }
+  .stats dt { font-size: 0.65rem; color: var(--muted); }
+  .stats dd { margin: 0; font-family: var(--font-display); font-weight: 700; color: var(--r); }
+
+  .flip {
+    margin-top: 1.1rem; cursor: pointer; font: inherit; font-family: var(--font-display); font-weight: 700; font-size: 0.9rem;
+    padding: 0.5em 1em; border-radius: 9px; color: var(--r);
+    background: color-mix(in srgb, var(--r) 12%, transparent); border: 1px solid color-mix(in srgb, var(--r) 45%, transparent);
+  }
+  .flip:hover { background: color-mix(in srgb, var(--r) 22%, transparent); }
+
+  .back-head h2 { margin-top: 0.4rem; }
+  .back section h3 { margin-top: 0.9rem; }
+  .abilities { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.6rem; }
+  .abilities li { background: var(--surface-2); border-radius: 10px; padding: 0.6rem 0.8rem; border-left: 3px solid var(--r); }
+  .abilities p { margin: 0.2rem 0 0; font-size: 0.92rem; }
+  .chips { display: inline-flex; gap: 0.3rem; margin-left: 0.5rem; }
+  .chips span { font-size: 0.7rem; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 0 0.5em; }
+  .story { font-style: italic; color: var(--text); opacity: 0.9; }
+  .back-foot { margin-top: auto; padding-top: 0.6rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .back-foot a { font-family: var(--font-display); font-weight: 700; color: var(--r); font-size: 0.9rem; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .inner { transition: none; }
+  }
+  @media (max-width: 560px) {
+    .front { grid-template-columns: 1fr; }
+    .front :global(.portrait) { max-width: 170px; margin-inline: auto; }
+    .stats { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>

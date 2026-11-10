@@ -1,0 +1,37 @@
+# Roles de unidad: etiqueta (ES/EN) y color.
+melee:
+  label: { es: "Melee", en: "Melee" }
+  color: "#d9473a"
+arquero:
+  label: { es: "Arquero", en: "Archer" }
+  color: "#45a548"
+movilidad:
+  label: { es: "Movilidad", en: "Mobility" }
+  color: "#3f8fdc"
+asesino:
+  label: { es: "Asesino", en: "Assassin" }
+  color: "#9b5de5"
+bombas:
+  label: { es: "Bombas", en: "Bombs" }
+  color: "#ee7d22"
+volador:
+  label: { es: "Volador", en: "Flyer" }
+  color: "#e2b23a"
+agua:
+  label: { es: "Agua", en: "Water" }
+  color: "#2fa4e7"
+tanque:
+  label: { es: "Tanque", en: "Tank" }
+  color: "#9aa3ad"
+soporte:
+  label: { es: "Soporte", en: "Support" }
+  color: "#5cb85c"
+mago:
+  label: { es: "Mago", en: "Mage" }
+  color: "#e2483d"
+ingeniero:
+  label: { es: "Ingeniero", en: "Engineer" }
+  color: "#e88a25"
+naturaleza:
+  label: { es: "Naturaleza", en: "Nature" }
+  color: "#6dbb4b"

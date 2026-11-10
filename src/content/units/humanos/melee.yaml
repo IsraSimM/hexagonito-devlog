@@ -1,0 +1,27 @@
+# Unidad: Soldado / Soldier
+faction: humanos
+role: melee
+order: 1
+portrait: ../../../assets/units/humanos/melee.png
+# Estadísticas: null = "Por definir". Ejemplo: { health: 10, attack: 4, defense: 2, move: 3, range: "1" }
+stats: null
+es:
+  name: "Soldado"
+  title: "Soldado cuerpo a cuerpo"
+  summary: "Alta resistencia y daño en corto alcance."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""
+en:
+  name: "Soldier"
+  title: "Close-quarters soldier"
+  summary: "High toughness and damage at short range."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""

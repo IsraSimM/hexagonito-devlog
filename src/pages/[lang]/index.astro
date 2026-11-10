@@ -7,7 +7,7 @@ import LaunchBox from "../../components/LaunchBox.astro";
 import { getPosts, langs, t, url, type Lang } from "../../i18n/ui";
 import { stats } from "../../data/game";
 import { sections, sectionKeys } from "../../data/sections";
-import { factions } from "../../data/factions";
+import { getFactions } from "../../data/factions";
 
 export function getStaticPaths() {
   return langs.map((lang) => ({ params: { lang } }));
@@ -16,7 +16,8 @@ export function getStaticPaths() {
 const lang = Astro.params.lang as Lang;
 const posts = await getPosts(lang);
 const [latest, ...rest] = posts;
-const og = (await getImage({ src: factions[0].sheet, width: 1200, format: "jpg" })).src;
+const factions = await getFactions();
+const og = (await getImage({ src: factions[0].data.sheet, width: 1200, format: "jpg" })).src;
 const latestIn = (s: string) => posts.find((p) => p.data.section === s);
 ---
 
@@ -92,10 +93,10 @@ const latestIn = (s: string) => posts.find((p) => p.data.section === s);
     </div>
     <div class="factions">
       {factions.map((f) => (
-        <a class="fac" href={url(`${lang}/factions/${f.slug}/`)} style={`--fa:${f.accent}`}>
-          <Image src={f.sheet} alt={f.name[lang]} widths={[600, 1000, 1536]} sizes="(max-width: 860px) 100vw, 540px" />
-          <span class="fname">{f.name[lang]}</span>
-          <span class="motto">{f.motto[lang]}</span>
+        <a class="fac" href={url(`${lang}/factions/${f.data.path}/`)} style={`--fa:${f.data.accent}`}>
+          <Image src={f.data.sheet} alt={f.data[lang].name} widths={[600, 1000, 1536]} sizes="(max-width: 860px) 100vw, 540px" />
+          <span class="fname">{f.data[lang].name}</span>
+          <span class="motto">{f.data[lang].motto}</span>
         </a>
       ))}
     </div>

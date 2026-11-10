@@ -1,0 +1,27 @@
+# Unidad: Jinete orco / Orc rider
+faction: orcos
+role: movilidad
+order: 3
+portrait: ../../../assets/units/orcos/movilidad.png
+# Estadísticas: null = "Por definir". Ejemplo: { health: 10, attack: 4, defense: 2, move: 3, range: "1" }
+stats: null
+es:
+  name: "Jinete orco"
+  title: "Especialista en movimiento"
+  summary: "Alta velocidad y gran capacidad de reposicionamiento."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""
+en:
+  name: "Orc rider"
+  title: "Movement specialist"
+  summary: "High speed and strong repositioning."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""

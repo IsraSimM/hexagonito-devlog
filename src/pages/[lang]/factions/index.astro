@@ -2,12 +2,15 @@
 import { Image } from "astro:assets";
 import Base from "../../../layouts/Base.astro";
 import { langs, t, url, type Lang } from "../../../i18n/ui";
-import { factions } from "../../../data/factions";
+import { getFactions, getUnits } from "../../../data/factions";
 
 export function getStaticPaths() {
   return langs.map((lang) => ({ params: { lang } }));
 }
 const lang = Astro.params.lang as Lang;
+const factions = await Promise.all(
+  (await getFactions()).map(async (f) => ({ f, count: (await getUnits(f.id)).length })),
+);
 ---
 
 <Base lang={lang} title={t(lang, "factions.title")} description={t(lang, "factions.lead")} path="factions/">
@@ -17,14 +20,14 @@ const lang = Astro.params.lang as Lang;
     <p class="muted">{t(lang, "factions.lead")}</p>
   </section>
   <section class="container list">
-    {factions.map((f) => (
-      <a class:list={["faction", f.id]} href={url(`${lang}/factions/${f.slug}/`)} style={`--fa:${f.accent};--fb:${f.accent2}`}>
-        <Image src={f.sheet} alt={f.name[lang]} widths={[600, 1000, 1536]} sizes="(max-width: 1120px) 100vw, 1060px" />
+    {factions.map(({ f, count }) => (
+      <a class:list={["faction", f.data.cardStyle]} href={url(`${lang}/factions/${f.data.path}/`)} style={`--fa:${f.data.accent};--fb:${f.data.accent2}`}>
+        <Image src={f.data.sheet} alt={f.data[lang].name} widths={[600, 1000, 1536]} sizes="(max-width: 1120px) 100vw, 1060px" />
         <div class="txt">
-          <p class="motto">{f.motto[lang]}</p>
-          <h2>{f.name[lang]}</h2>
-          <p>{f.lead[lang]}</p>
-          <span class="go">{f.units.length} {t(lang, "factions.units").toLowerCase()} →</span>
+          <p class="motto">{f.data[lang].motto}</p>
+          <h2>{f.data[lang].name}</h2>
+          <p>{f.data[lang].lead}</p>
+          <span class="go">{count} {t(lang, "factions.units").toLowerCase()} →</span>
         </div>
       </a>
     ))}
@@ -49,6 +52,6 @@ const lang = Astro.params.lang as Lang;
   h2 { font-size: clamp(2rem, 4vw, 3rem); }
   .txt p:not(.motto) { color: var(--muted); }
   .go { font-family: var(--font-display); font-weight: 700; color: var(--fa); }
-  .orcos h2 { color: var(--fa); text-shadow: 3px 3px 0 color-mix(in srgb, var(--fb) 70%, transparent); }
+  .rugged h2 { color: var(--fa); text-shadow: 3px 3px 0 color-mix(in srgb, var(--fb) 70%, transparent); }
   @media (max-width: 800px) { .faction { grid-template-columns: 1fr; } }
 </style>

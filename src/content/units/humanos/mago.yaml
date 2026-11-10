@@ -1,0 +1,28 @@
+# Unidad: Maga de fuego / Fire mage
+faction: humanos
+role: mago
+order: 10
+portrait: ../../../assets/units/humanos/mago.png
+sheet: ../../../assets/units/humanos/sheets/mago.jpg
+# Estadísticas: null = "Por definir". Ejemplo: { health: 10, attack: 4, defense: 2, move: 3, range: "1" }
+stats: null
+es:
+  name: "Maga de fuego"
+  title: "Daño mágico"
+  summary: "Gran daño de área y control elemental."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""
+en:
+  name: "Fire mage"
+  title: "Magic damage"
+  summary: "Heavy area damage and elemental control."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""

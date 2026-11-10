@@ -1,0 +1,28 @@
+# Unidad: Tanque / Tank
+faction: humanos
+role: tanque
+order: 8
+portrait: ../../../assets/units/humanos/tanque.png
+sheet: ../../../assets/units/humanos/sheets/tanque.jpg
+# Estadísticas: null = "Por definir". Ejemplo: { health: 10, attack: 4, defense: 2, move: 3, range: "1" }
+stats: null
+es:
+  name: "Tanque"
+  title: "Alta defensa"
+  summary: "Protege aliados y absorbe daño."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""
+en:
+  name: "Tank"
+  title: "High defence"
+  summary: "Protects allies and soaks damage."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""

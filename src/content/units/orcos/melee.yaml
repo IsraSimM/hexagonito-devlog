@@ -1,0 +1,27 @@
+# Unidad: Guerrero orco / Orc warrior
+faction: orcos
+role: melee
+order: 1
+portrait: ../../../assets/units/orcos/melee.png
+# Estadísticas: null = "Por definir". Ejemplo: { health: 10, attack: 4, defense: 2, move: 3, range: "1" }
+stats: null
+es:
+  name: "Guerrero orco"
+  title: "Cuerpo a cuerpo"
+  summary: "Gran resistencia y daño en corto alcance."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""
+en:
+  name: "Orc warrior"
+  title: "Close quarters"
+  summary: "Great toughness and damage at short range."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""

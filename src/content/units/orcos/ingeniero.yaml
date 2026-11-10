@@ -1,0 +1,27 @@
+# Unidad: Ingeniero orco / Orc engineer
+faction: orcos
+role: ingeniero
+order: 11
+portrait: ../../../assets/units/orcos/ingeniero.png
+# Estadísticas: null = "Por definir". Ejemplo: { health: 10, attack: 4, defense: 2, move: 3, range: "1" }
+stats: null
+es:
+  name: "Ingeniero orco"
+  title: "Estructuras y utilidades"
+  summary: "Despliega torretas, trampas y artilugios mecánicos."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""
+en:
+  name: "Orc engineer"
+  title: "Structures and utilities"
+  summary: "Deploys turrets, traps and mechanical gadgets."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""

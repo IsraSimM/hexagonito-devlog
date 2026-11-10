@@ -1,0 +1,27 @@
+# Unidad: Guerrero del pantano / Swamp warrior
+faction: orcos
+role: agua
+order: 7
+portrait: ../../../assets/units/orcos/agua.png
+# Estadísticas: null = "Por definir". Ejemplo: { health: 10, attack: 4, defense: 2, move: 3, range: "1" }
+stats: null
+es:
+  name: "Guerrero del pantano"
+  title: "Control y daño en masa"
+  summary: "Control y daño en masa en el agua; invoca criaturas acuáticas."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""
+en:
+  name: "Swamp warrior"
+  title: "Control and mass damage"
+  summary: "Crowd control and damage in water; summons aquatic creatures."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""

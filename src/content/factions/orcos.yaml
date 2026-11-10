@@ -1,0 +1,16 @@
+# Facción. El nombre del archivo es su id; `path` es su URL (/<idioma>/factions/<slug>/).
+path: orcs
+order: 2
+accent: "#7fb347"
+accent2: "#b3332a"
+# Estilo visual de la página y las cartas: clean (limpio, redondeado) | rugged (cortes en diagonal)
+cardStyle: rugged
+sheet: ../../assets/art/orcos.png
+es:
+  name: "Orcos"
+  motto: "Fuerza · Caos · Supervivencia"
+  lead: "Hueso, hierro oxidado y bestias de guerra. Los orcos aplastan, emboscan y nunca dejan de avanzar."
+en:
+  name: "Orcs"
+  motto: "Strength · Chaos · Survival"
+  lead: "Bone, rusty iron and war beasts. Orcs crush, ambush and never stop advancing."

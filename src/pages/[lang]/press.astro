@@ -6,7 +6,7 @@ import LaunchBox from "../../components/LaunchBox.astro";
 import { formatDate, langs, t, url, type Lang } from "../../i18n/ui";
 import { launch, studio } from "../../data/launch";
 import { features } from "../../data/game";
-import { factions } from "../../data/factions";
+import { getFactions } from "../../data/factions";
 import stinky from "../../assets/art/stinky.png";
 import humanosUrl from "../../assets/art/humanos.png?url";
 import orcosUrl from "../../assets/art/orcos.png?url";
@@ -17,6 +17,7 @@ export function getStaticPaths() {
 }
 const lang = Astro.params.lang as Lang;
 const es = lang === "es";
+const factions = await getFactions();
 
 const facts: [string, string][] = [
   [es ? "Desarrollador" : "Developer", studio.name],
@@ -63,7 +64,7 @@ const assets = [
       <h2>{es ? "Características" : "Features"}</h2>
       <ul>
         {features.map((f) => <li><strong>{f.title[lang]}.</strong> {f.text[lang]}</li>)}
-        <li><strong>{es ? "Dos facciones" : "Two factions"}.</strong> {factions.map((f) => f.name[lang]).join(es ? " y " : " and ")}, {es ? "12 unidades cada una" : "12 units each"}.</li>
+        <li><strong>{es ? "Dos facciones" : "Two factions"}.</strong> {factions.map((f) => f.data[lang].name).join(es ? " y " : " and ")}.</li>
       </ul>
     </div>
     <aside>

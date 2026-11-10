@@ -1,0 +1,28 @@
+# Unidad: Bombardero / Bomber
+faction: humanos
+role: bombas
+order: 5
+portrait: ../../../assets/units/humanos/bombas.png
+sheet: ../../../assets/units/humanos/sheets/bombas.jpg
+# Estadísticas: null = "Por definir". Ejemplo: { health: 10, attack: 4, defense: 2, move: 3, range: "1" }
+stats: null
+es:
+  name: "Bombardero"
+  title: "Daño de área"
+  summary: "Control de zonas y estructuras."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""
+en:
+  name: "Bomber"
+  title: "Area damage"
+  summary: "Controls zones and structures."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""

@@ -1,0 +1,27 @@
+# Unidad: Hechicero orco / Orc sorcerer
+faction: orcos
+role: mago
+order: 10
+portrait: ../../../assets/units/orcos/mago.png
+# Estadísticas: null = "Por definir". Ejemplo: { health: 10, attack: 4, defense: 2, move: 3, range: "1" }
+stats: null
+es:
+  name: "Hechicero orco"
+  title: "Daño mágico"
+  summary: "Gran daño mágico y control elemental (fuego, maldiciones)."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""
+en:
+  name: "Orc sorcerer"
+  title: "Magic damage"
+  summary: "Heavy magic damage and elemental control (fire, curses)."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""

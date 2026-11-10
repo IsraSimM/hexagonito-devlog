@@ -1,5 +1,5 @@
-import { defineCollection } from "astro:content";
-import { glob } from "astro/loaders";
+import { defineCollection, reference } from "astro:content";
+import { file, glob } from "astro/loaders";
 import { z } from "astro/zod";
 
 /**
@@ -25,4 +25,73 @@ const devlog = defineCollection({
     }),
 });
 
-export const collections = { devlog };
+const bi = z.object({ es: z.string(), en: z.string() });
+
+/** Roles de unidad: src/content/roles.yaml */
+const roles = defineCollection({
+  loader: file("src/content/roles.yaml"),
+  schema: z.object({ label: bi, color: z.string() }),
+});
+
+/** Facciones: src/content/factions/<id>.yaml */
+const factions = defineCollection({
+  loader: glob({ base: "./src/content/factions", pattern: "*.yaml" }),
+  schema: ({ image }) =>
+    z.object({
+      /** Parte de la URL: /<idioma>/factions/<path>/ (no usar "slug": Astro lo toma como id). */
+      path: z.string(),
+      order: z.number(),
+      accent: z.string(),
+      accent2: z.string(),
+      cardStyle: z.enum(["clean", "rugged"]).default("clean"),
+      sheet: image(),
+      es: z.object({ name: z.string(), motto: z.string(), lead: z.string() }),
+      en: z.object({ name: z.string(), motto: z.string(), lead: z.string() }),
+    }),
+});
+
+/** Textos de una unidad en un idioma. Todo lo opcional se muestra como "Por definir". */
+const unitText = z.object({
+  name: z.string(),
+  title: z.string(),
+  summary: z.string(),
+  passive: z.object({ name: z.string(), text: z.string() }).nullish(),
+  abilities: z
+    .array(
+      z.object({
+        name: z.string(),
+        text: z.string(),
+        cooldown: z.number().optional(),
+        cost: z.string().optional(),
+      }),
+    )
+    .nullish()
+    .transform((a) => a ?? []),
+  story: z.string().nullish(),
+});
+
+/** Unidades: src/content/units/<facción>/<rol>.yaml */
+const units = defineCollection({
+  loader: glob({ base: "./src/content/units", pattern: "**/*.yaml" }),
+  schema: ({ image }) =>
+    z.object({
+      faction: reference("factions"),
+      role: reference("roles"),
+      order: z.number(),
+      portrait: image(),
+      sheet: image().optional(),
+      stats: z
+        .object({
+          health: z.number(),
+          attack: z.number(),
+          defense: z.number(),
+          move: z.number(),
+          range: z.union([z.string(), z.number()]),
+        })
+        .nullish(),
+      es: unitText,
+      en: unitText,
+    }),
+});
+
+export const collections = { devlog, roles, factions, units };

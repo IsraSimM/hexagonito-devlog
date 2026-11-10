@@ -1,0 +1,27 @@
+# Unidad: Cazador orco / Orc hunter
+faction: orcos
+role: arquero
+order: 2
+portrait: ../../../assets/units/orcos/arquero.png
+# Estadísticas: null = "Por definir". Ejemplo: { health: 10, attack: 4, defense: 2, move: 3, range: "1" }
+stats: null
+es:
+  name: "Cazador orco"
+  title: "Ataque a distancia"
+  summary: "Flechas pesadas y venenos."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""
+en:
+  name: "Orc hunter"
+  title: "Ranged attacker"
+  summary: "Heavy arrows and poisons."
+  # Pasiva: quítale el # y rellena.
+  # passive: { name: "", text: "" }
+  # Habilidades: lista de { name, text, cooldown (turnos, opcional), cost (opcional) }.
+  abilities: []
+  # Historia breve (texto libre, admite varias líneas con |).
+  story: ""
