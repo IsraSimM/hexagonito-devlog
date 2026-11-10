@@ -5,7 +5,7 @@ date: 2026-10-06
 tags: [anuncio, arquitectura]
 ---
 
-El 6 de octubre de 2026 hicimos el primer commit de **HexaGonito**: un proyecto de Unity vacío y dos documentos, `ARCHITECTURE.md` y `AI_RULES.md`. Ni una unidad, ni un hexágono en pantalla.
+El 6 de octubre de 2026 hicimos el primer commit de **HexaGonito**: un proyecto de Unity vacío y dos documentos en los que detallamos la idea. Ni una unidad, ni un hexágono en pantalla.
 
 ## ¿Qué es HexaGonito?
 
